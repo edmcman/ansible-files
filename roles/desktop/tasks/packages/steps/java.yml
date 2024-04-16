@@ -1,0 +1,7 @@
+- name: Install Java
+  import_role:
+    name: temurin
+  vars:
+    temurin_packages:
+      - adoptium-ca-certificates
+      - temurin-17-jdk

@@ -4,3 +4,7 @@
 
 - src: darkwizard242.googlechrome
   version: 3.0.0
+
+- name: temurin # java
+  src: https://github.com/rolehippie/temurin
+  version: v2.0.0
