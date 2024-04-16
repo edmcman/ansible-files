@@ -4,3 +4,5 @@
 - import_tasks: roles/base/tasks/packages/steps/llvm.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
+# Fish
+- import_tasks: roles/base/tasks/fish.yml

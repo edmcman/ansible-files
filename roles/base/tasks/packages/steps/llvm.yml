@@ -1,0 +1,18 @@
+- name: Add llvm key
+  ansible.builtin.apt_key:
+    url: https://apt.llvm.org/llvm-snapshot.gpg.key
+    state: present
+
+- name: Add llvm repository
+  ansible.builtin.apt_repository:
+    repo: "deb http://apt.llvm.org/{{ansible_distribution_release}} llvm-toolchain-{{ansible_distribution_release}}-{{llvm_version}} main"
+    state: present
+
+- name: Install llvm
+  ansible.builtin.apt:
+    name:
+      - "{{item}}-{{llvm_version}}"
+  loop:
+    - clang
+    - lldb
+    - lld
