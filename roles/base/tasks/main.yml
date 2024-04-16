@@ -1,4 +1,6 @@
 # Install base apt packages
 - import_tasks: roles/base/tasks/packages/steps/apt.yml
+# LLVM
+- import_tasks: roles/base/tasks/packages/steps/llvm.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
