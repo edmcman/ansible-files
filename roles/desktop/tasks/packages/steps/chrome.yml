@@ -1,0 +1,4 @@
+- name: chrome
+  import_role:
+    name: darkwizard242.googlechrome
+

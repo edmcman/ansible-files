@@ -1,0 +1,12 @@
+- name: users | {{user_name}} | setup git user
+  tags: user_config
+  become_user: '{{user_name}}'
+  community.general.git_config:
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    scope: global
+  with_items:
+    - { name: user.name, value: '{{git_user_name}}' }
+    - { name: user.email, value: '{{git_user_email}}' }
+    - { name: core.editor, value: 'code --wait' }
+  when: git_user_name is defined and git_user_email is defined

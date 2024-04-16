@@ -1,0 +1,4 @@
+- name: Install desktop apt packages
+  ansible.builtin.apt:
+    name:
+      - gparted

@@ -1,3 +1,0 @@
-- hosts: desktop
-  roles:
-  - gantsign.visual-studio-code

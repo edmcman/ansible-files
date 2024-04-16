@@ -1,0 +1,7 @@
+- name: local
+  hosts: "{{ host | default('localhost') }}"
+  become: true
+
+  roles:
+    - { role: base, tags: [ 'base' ]}
+    - { role: desktop, tags: [ 'desktop' ]}

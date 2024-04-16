@@ -1,0 +1,4 @@
+# Install base apt packages
+- import_tasks: roles/base/tasks/packages/steps/apt.yml
+# Setup git
+- import_tasks: roles/base/tasks/git.yml

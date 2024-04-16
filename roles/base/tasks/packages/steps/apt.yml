@@ -1,0 +1,11 @@
+- name: Install base apt packages
+  ansible.builtin.apt:
+    name:
+      - git
+      - curl
+      - htop
+      - tree
+      - tmux
+      - ca-certificates
+      - python3-pip
+      - build-essential
