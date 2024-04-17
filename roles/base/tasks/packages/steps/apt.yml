@@ -1,12 +1,6 @@
 - name: Install base apt packages
   ansible.builtin.apt:
-    name:
-      - git
-      - git-lfs
-      - curl
-      - htop
-      - tree
-      - tmux
-      - ca-certificates
-      - python3-pip
-      - build-essential
+    name: "{{ base_apt_packages }}"
+- name: Install latex apt packages
+  ansible.builtin.apt:
+    name: "{{ latex_apt_packages }}"

@@ -1,1 +1,37 @@
 llvm_version: 18
+
+base_apt_packages:
+- build-essential
+- ca-certificates
+- curl
+- git
+- git-lfs
+- htop
+- nethogs
+- python3-pip
+- tmux
+- tree
+
+latex_apt_packages:
+- inkscape
+- texlive
+- texlive-binaries
+- texlive-extra-utils
+- texlive-font-utils
+- texlive-fonts-extra
+- texlive-fonts-extra-doc
+- texlive-fonts-recommended
+- texlive-fonts-recommended-doc
+- texlive-latex-extra
+- texlive-latex-extra-doc
+- texlive-luatex
+- texlive-metapost
+- texlive-pictures
+- texlive-pictures-doc
+- texlive-plain-generic
+- texlive-pstricks
+- texlive-pstricks-doc
+- texlive-publishers
+- texlive-publishers-doc
+- texlive-science
+- texlive-science-doc
