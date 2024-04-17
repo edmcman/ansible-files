@@ -1,3 +1,4 @@
 desktop_apt_packages:
   - gparted
   - xclip
+  - emacs

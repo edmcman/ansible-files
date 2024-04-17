@@ -13,6 +13,7 @@ base_apt_packages:
 - python3-pip
 - tmux
 - tree
+- emacs-nox
 
 latex_apt_packages:
 - inkscape
