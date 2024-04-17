@@ -1,0 +1,8 @@
+- name: Pin chrome in gnome
+  import_role:
+    name: gantsign.ansible-role-pin-to-launcher
+  vars:
+    pin_to_launcher: gnome
+    pin_to_launcher_favorites:
+      - application: 'google-chrome.desktop'
+      - application: 'code.desktop'

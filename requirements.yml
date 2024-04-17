@@ -11,3 +11,7 @@
 
 - src: geerlingguy.docker
   version: 7.1.0
+
+- name: gantsign.ansible-role-pin-to-launcher
+  src: https://github.com/gantsign/ansible-role-pin-to-launcher
+  version: 4.0.0
