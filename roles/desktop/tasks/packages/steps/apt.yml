@@ -1,4 +1,3 @@
 - name: Install desktop apt packages
   ansible.builtin.apt:
-    name:
-      - gparted
+    name: "{{ desktop_apt_packages }}"
