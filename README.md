@@ -6,7 +6,6 @@
 
 # TODO
 
-* Docker
 * SEI CA certificates
 * notion
 * git credential helper

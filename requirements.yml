@@ -8,3 +8,6 @@
 - name: temurin # java
   src: https://github.com/rolehippie/temurin
   version: v2.0.0
+
+- src: geerlingguy.docker
+  version: 7.1.0

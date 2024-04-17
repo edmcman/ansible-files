@@ -1,0 +1,9 @@
+- name: Docker
+  import_role:
+    name: geerlingguy.docker
+
+- name: Add user to docker group
+  user:
+    name: "{{ user_name }}"
+    groups: docker
+    append: yes

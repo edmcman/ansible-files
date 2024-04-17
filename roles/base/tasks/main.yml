@@ -2,6 +2,8 @@
 - import_tasks: roles/base/tasks/packages/steps/apt.yml
 # LLVM
 - import_tasks: roles/base/tasks/packages/steps/llvm.yml
+# Docker
+- import_tasks: roles/base/tasks/packages/steps/docker.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
 # Fish
