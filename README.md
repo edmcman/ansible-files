@@ -11,3 +11,4 @@
 * notion
 * git credential helper
 * change scroll direction
+* github gh command
