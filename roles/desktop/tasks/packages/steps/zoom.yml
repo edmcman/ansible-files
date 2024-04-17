@@ -1,0 +1,3 @@
+- name: Install zoom
+  import_role:
+    name: gotmax23.zoom

@@ -15,3 +15,6 @@
 - name: gantsign.ansible-role-pin-to-launcher
   src: https://github.com/gantsign/ansible-role-pin-to-launcher
   version: 4.0.0
+
+- src: gotmax23.zoom
+  version: v0.0.4

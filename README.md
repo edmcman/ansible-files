@@ -11,7 +11,6 @@
 * git credential helper
 * github gh command
 * aws cli
-* zoom client
 * beeper
 * vmware
 * nvidia cuda
