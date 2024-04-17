@@ -6,7 +6,7 @@
 
 # TODO
 
-* SEI CA certificates
+* SEI CA certificates (for nss/firefox/chrome)
 * notion
 * git credential helper
 * change scroll direction
