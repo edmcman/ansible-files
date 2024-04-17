@@ -11,6 +11,7 @@
 * git credential helper
 * change scroll direction
 * github gh command
+* aws cli
 * zoom client
 * beeper
 * vmware
