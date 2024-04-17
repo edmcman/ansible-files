@@ -9,7 +9,6 @@
 * SEI CA certificates (for firefox)
 * notion
 * git credential helper
-* change scroll direction
 * github gh command
 * aws cli
 * zoom client

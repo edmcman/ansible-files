@@ -1,0 +1,9 @@
+- name: Ensure psutil is installed
+  pip:
+    name: psutil
+
+- name: Apply dconf settings
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop: "{{ dconf_settings }}"
