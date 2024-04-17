@@ -10,4 +10,5 @@
 * latex
 * SEI CA certificates
 * notion
-* git auth cache
+* git credential helper
+* change scroll direction
