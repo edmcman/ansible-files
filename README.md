@@ -14,3 +14,4 @@
 * beeper
 * vmware
 * nvidia cuda
+* Kerberos
