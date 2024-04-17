@@ -6,11 +6,11 @@
 
 # TODO
 
-* SEI CA certificates (for nss/firefox/chrome)
+* SEI CA certificates (for firefox)
 * notion
 * git credential helper
 * change scroll direction
 * github gh command
-* mattermost client
 * zoom client
 * beeper
+* vmware
