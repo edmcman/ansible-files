@@ -10,3 +10,4 @@
 * latex
 * SEI CA certificates
 * notion
+* git auth cache
