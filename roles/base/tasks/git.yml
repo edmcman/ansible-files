@@ -9,4 +9,6 @@
     - { name: user.name, value: '{{git_user_name}}' }
     - { name: user.email, value: '{{git_user_email}}' }
     - { name: core.editor, value: 'code --wait' }
+    # Improve this
+    - { name: credential.helper, value: 'cache --timeout=99999999'}
   when: git_user_name is defined and git_user_email is defined
