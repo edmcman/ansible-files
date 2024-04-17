@@ -6,3 +6,5 @@
     pin_to_launcher_favorites:
       - application: 'google-chrome.desktop'
       - application: 'code.desktop'
+      - application: 'mattermost-desktop.desktop'
+      # Zscaler?
