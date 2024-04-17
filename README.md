@@ -14,3 +14,4 @@
 * zoom client
 * beeper
 * vmware
+* nvidia cuda
