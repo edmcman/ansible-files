@@ -8,3 +8,5 @@
 - import_tasks: roles/base/tasks/git.yml
 # Fish
 - import_tasks: roles/base/tasks/fish.yml
+# Set debian_architecture
+- import_tasks: roles/base/tasks/debian_arch.yml

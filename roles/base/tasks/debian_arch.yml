@@ -1,0 +1,8 @@
+# XXX: Can we make this not 'change' each time?
+- name: Get debian architecture
+  shell: dpkg --print-architecture
+  register: debian_architecture_tmp
+
+- name: Set debian architecture
+  ansible.builtin.set_fact:
+    debian_architecture: "{{ debian_architecture_tmp.stdout }}"

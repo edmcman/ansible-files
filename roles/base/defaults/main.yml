@@ -1,6 +1,7 @@
 llvm_version: 18
 
 base_apt_packages:
+- apt-file
 - build-essential
 - ca-certificates
 - curl
@@ -8,6 +9,7 @@ base_apt_packages:
 - git-lfs
 - htop
 - nethogs
+- plocate
 - python3-pip
 - tmux
 - tree

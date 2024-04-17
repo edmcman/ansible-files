@@ -11,3 +11,6 @@
 * git credential helper
 * change scroll direction
 * github gh command
+* mattermost client
+* zoom client
+* beeper
