@@ -54,7 +54,7 @@
 - name: Install notion.session
   template:
     src: notion.session.j2
-    dest: /usr/share/gnome-sessions/sessions/notion.session
+    dest: /usr/share/gnome-sessions/notion.session
 
 - name: Set META
   lineinfile:
