@@ -2,7 +2,7 @@
 
 1. `./scripts/install_ansible.bash`
 2. `ansible-galaxy install -r requirements.yml`
-3. `ansible-playbook --connection=local -i localhost, local.yml`
+3. `ansible-playbook --connection=local -i localhost, local.yml -K`
 
 # TODO
 
@@ -15,3 +15,10 @@
 * vmware
 * nvidia cuda
 * Kerberos
+
+# Thoughts
+
+There are two steps:
+1. Provisioning
+2. Configuration
+ 

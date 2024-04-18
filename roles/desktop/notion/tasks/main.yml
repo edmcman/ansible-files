@@ -1,0 +1,94 @@
+- name: Ensure notion build dependencies exist
+  apt:
+    pkg: 
+      - build-essential
+      - lua5.4
+      - liblua5.4-dev
+      - libx11-dev
+      - libxext-dev
+      - libsm-dev
+      - gettext
+      - libxinerama-dev
+      - libxrandr-dev
+      - libxft-dev
+
+- name: Check if notion is installed
+  stat:
+    path: /usr/local/bin/notion
+  register: notionbin
+
+- name: Build notion
+  block:
+    - name: Create temporary directory
+      tempfile:
+        state: directory
+        prefix: ansible.notion.build
+      register: tempdir
+    - name: Clone notion git
+      git:
+        repo: https://github.com/raboof/notion.git
+        dest: "{{ tempdir.path }}"
+    - name: Build and install notion
+      community.general.make:
+        chdir: "{{ tempdir.path }}"
+        targets:
+          - all
+          - install
+    - name: Remove temporary directory
+      file:
+        state: absent
+        path: "{{ tempdir.path }}"
+  # when /usr/local/bin/notion doesn't exist
+  when: not (notionbin.stat.isreg is defined and notionbin.stat.isreg)
+
+- name: Install notion-gnome.desktop
+  template:
+    src: notion-gnome.desktop.j2
+    dest: /usr/share/xsessions/notion-gnome.desktop
+
+- name: Install notion.desktop
+  template:
+    src: notion.desktop.j2
+    dest: /usr/share/applications/notion.desktop
+
+- name: Install notion.session
+  template:
+    src: notion.session.j2
+    dest: /usr/share/gnome-sessions/sessions/notion.session
+
+- name: Set META
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_notion.lua
+    regexp: '^--META='
+    line: META="Mod4+"
+    backup: true
+- name: Set ALTMETA
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_notion.lua
+    regexp: '^--ALTMETA='
+    line: ALTMETA="Mod1+"
+    backup: true
+- name: Disable mod_dock
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_defaults.lua
+    state: absent
+    line: 'dopath("mod_dock")'
+    backup: true
+- name: Enable mod_statusbar
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_notion.lua
+    regexp: '^--dopath("mod_statusbar")'
+    line: 'dopath("mod_statusbar")'
+    backup: true
+- name: Define statusbar template
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_statusbar.lua
+    line: '    template="[ %date || %load || %linuxbatt (%linuxbatt_state) ] %systray",'
+    insertafter: 'mod_statusbar\.create\{'
+    #regexp: '--template='
+    backup: true
+- name: Download linuxbatt script
+  get_url:
+    url: https://github.com/raboof/notion/blob/main/contrib/statusd/statusd_linuxbatt.lua
+    dest: /usr/local/etc/notion/statusd_linuxbatt.lua
+    force: false
