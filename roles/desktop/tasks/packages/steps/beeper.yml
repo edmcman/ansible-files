@@ -1,0 +1,10 @@
+- name: Download beeper
+  get_url:
+    url: https://download.beeper.com/linux/appImage/x64
+    dest: /usr/local/bin/beeper
+    mode: '0755'
+
+- name: Install fuse
+  package:
+    name: libfuse2
+    state: present
