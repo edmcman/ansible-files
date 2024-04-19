@@ -137,6 +137,33 @@
     dest: /usr/local/etc/notion/statusd_linuxbatt.lua
     force: false
 
+- name: Ed's kludges
+  blockinfile:
+    path: /usr/local/etc/notion/cfg_kludges.lua
+    prepend_newline: true
+    marker: "-- ansible section"
+    block: |
+      -- Put stuff in the scratch workspace
+      defwinprop {
+          class = "Mattermost",
+          instance = "mattermost",
+          target = "*scratchws*"
+      }
+
+      defwinprop {
+          class = "ZSTray",
+          instance = "ZSTray",
+          target = "*scratchws*"
+      }
+
+      -- Put chrome in the browser workspace
+      defwinprop {
+          class = "Google-chrome",
+          instance = "google-chrome",
+          target = "BrowserWS"
+      }
+
+
 # stalonetray configuration
 - name: Install stalonetray
   apt:
