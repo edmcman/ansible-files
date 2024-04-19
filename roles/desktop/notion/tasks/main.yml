@@ -42,25 +42,25 @@
   when: not (notionbin.stat.isreg is defined and notionbin.stat.isreg)
 
 - name: Install notion.desktop
-  template:
-    src: notion.desktop.j2
+  copy:
+    src: notion.desktop
     dest: /usr/share/applications/notion.desktop
 
 - name: Install notion-gnome.desktop
-  template:
-    src: notion-gnome.desktop.j2
+  copy:
+    src: notion-gnome.desktop
     dest: /usr/share/xsessions/notion-gnome.desktop
 
 # These are for running notion with unity.  Since unity is outdated, this is
 # deprecated now.
 - name: Install notion-unity.desktop
-  template:
-    src: notion-unity.desktop.j2
+  copy:
+    src: notion-unity.desktop
     dest: /usr/share/xsessions/notion-unity.desktop
 
 - name: Install notion-unity.session
-  template:
-    src: notion-unity.session.j2
+  copy:
+    src: notion-unity.session
     dest: /usr/share/gnome-session/sessions/notion-unity.session
 
 # To run notion with gnome, we'll copy the existing ubuntu.session file.
@@ -104,6 +104,11 @@
     regexp: '^--dopath("mod_statusbar")'
     line: 'dopath("mod_statusbar")'
     backup: true
+- name: Set Ed's theme as default
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_notion.lua
+    line: 'dopath("look_ed")'
+    backup: true
 - name: Set xterm
   lineinfile:
     path: /usr/local/etc/notion/cfg_notion.lua
@@ -117,6 +122,11 @@
     insertafter: 'mod_statusbar\.create\{'
     #regexp: '--template='
     backup: true
+
+- name: Install Ed's style file
+  copy:
+    src: look_ed.lua
+    dest: /usr/local/etc/notion/look_ed.lua
 
 - name: Enable notion 3 keybindings
   block:
@@ -170,6 +180,6 @@
     pkg: stalonetray
 
 - name: Install stalonetray.desktop
-  template:
-    src: stalonetray.desktop.j2
+  copy:
+    src: stalonetray.desktop
     dest: /usr/share/applications/stalonetray.desktop
