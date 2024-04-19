@@ -3,6 +3,10 @@
 - import_tasks: roles/desktop/tasks/packages/steps/java.yml
 - import_tasks: roles/desktop/tasks/packages/steps/apt.yml
 - import_tasks: roles/desktop/tasks/packages/steps/zoom.yml
+  tags:
+    - zoom
+    - initial
+    - never # don't enable by default because it downloads the deb every time!
 - import_tasks: roles/desktop/tasks/packages/steps/beeper.yml
 
 - import_tasks: roles/desktop/tasks/pin.yml
