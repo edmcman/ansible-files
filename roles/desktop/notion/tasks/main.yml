@@ -69,12 +69,11 @@
     src: /usr/share/gnome-session/sessions/ubuntu.session
     dest: /usr/share/gnome-session/sessions/notion-gnome.session
 
-# Change org.gnome.Shell to notion
-- name: Change org.gnome.Shell to notion
+- name: Change org.gnome.Shell to notion and add stalonetray
   replace:
     path: /usr/share/gnome-session/sessions/notion-gnome.session
     regexp: 'org\.gnome\.Shell'
-    replace: notion
+    replace: notion;stalonetray
 
 # There is also
 # /usr/lib/systemd/user/gnome-session@ubuntu.target.d/ubuntu.session.conf which
@@ -137,3 +136,13 @@
     url: https://github.com/raboof/notion/raw/main/contrib/statusd/statusd_linuxbatt.lua
     dest: /usr/local/etc/notion/statusd_linuxbatt.lua
     force: false
+
+# stalonetray configuration
+- name: Install stalonetray
+  apt:
+    pkg: stalonetray
+
+- name: Install stalonetray.desktop
+  template:
+    src: stalonetray.desktop.j2
+    dest: /usr/share/applications/stalonetray.desktop
