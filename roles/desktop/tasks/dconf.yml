@@ -6,4 +6,6 @@
   dconf:
     key: "{{ item.key }}"
     value: "{{ item.value }}"
+  # Apply to current user, not root
+  become: false
   loop: "{{ dconf_settings }}"

@@ -2,11 +2,15 @@
 
 1. `./scripts/install_ansible.bash`
 2. `ansible-galaxy install -r requirements.yml`
-3. `sudo -E ansible-playbook --connection=local -i localhost, local.yml --tags all,initial`
+3. `ansible-playbook --connection=local -i localhost, local.yml --tags all,initial -K`
 
 The `initial` tag includes some roles that probably shouldn't be run a lot,
 because they download large files each time.  So remove `initial` after you've
 run it once.
+
+It is important to use the `-K` flag with `ansible-playbook` instead of running
+as root, or the dconf configuration changes will not be applied to the correct
+user's profile.
 
 # TODO
 

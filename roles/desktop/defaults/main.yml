@@ -1,11 +1,22 @@
 desktop_apt_packages:
-  - gparted
-  - gnome-screenshot
-  - xclip
+  - dconf-editor
   - emacs
+  - gnome-screenshot
+  - gnome-tweaks
+  - gparted
+  - xclip
 
 # https://gist.github.com/carlwgeorge/c560a532b6929f49d9c0df52f75a68ae
 
 dconf_settings:
   - key: /org/gnome/desktop/peripherals/touchpad/natural-scroll
     value: false
+
+  - key: /org/gnome/desktop/interface/font-antialiasing
+    value: "'rgba'"
+
+  - key: /org/gnome/desktop/interface/monospace-font-name
+    #value: "'JetBrainsMono Nerd Font Regular 14'"
+    #value: "'SauceCodePro Nerd Font Mono 14'"
+    #value: "'Inconsolata Nerd Font Mono 14'"
+    value: "'Hack Nerd Font Mono 14'"

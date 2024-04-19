@@ -1,0 +1,39 @@
+# We could get this automatically but it seems silly...
+version: v3.2.1
+
+fontdir: /usr/local/share/fonts
+
+nerdfonts:
+  - 0xProto
+  - 3270
+  - BigBlueTerminal
+  - CascadiaCode
+  - CascadiaMono
+  - DaddyTimeMono
+  - DroidSansMono
+  - EnvyCodeR
+  - FiraCode
+  - FiraMono
+  - Go-Mono
+  - Hack
+  - Hasklig
+  - HeavyData
+  - Hermit
+  - Iosevka
+  - IosevkaTerm
+  - Inconsolata
+  - IntelOneMono
+  - JetBrainsMono
+  - Monofur
+  - Monoid
+  - Mononoki
+  - Meslo
+  - Noto
+  - Overpass
+  - ProFont
+  - ProggyClean
+  - RobotoMono
+  - SourceCodePro
+  - SpaceMono
+  - Ubuntu
+  - UbuntuMono

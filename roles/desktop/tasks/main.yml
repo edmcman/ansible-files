@@ -13,4 +13,7 @@
 - import_tasks: roles/desktop/tasks/dconf.yml
 
 - import_role:
-    name: roles/desktop/notion 
+    name: roles/desktop/notion
+
+- import_role:
+    name: roles/desktop/nerd-fonts

@@ -1,0 +1,29 @@
+# Ugh, come on ansible. https://www.reddit.com/r/ansible/comments/17gefuo/how_to_loop_over_a_block/
+- block:
+  - stat:
+      path: "{{ fontdir }}/{{ item }}"
+    register: f
+
+  - name: "Download and install {{ item }}"
+    block:
+    
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ fontdir }}/{{ item }}"
+        state: directory
+        mode: '0755'
+
+    - name: Download and install {{ item }}
+      unarchive:
+        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ version }}/{{ item }}.tar.xz"
+        dest: "{{ fontdir }}/{{ item }}"
+        remote_src: true
+
+    # This is super inefficient because we'll call it for each installed font.
+    # But because of the loop/block limitation, I don't see an easy way around
+    # it! I guess we could return something and the main.yml could use a
+    # handler.  But yuck.
+    - name: Regenerate font cache
+      command: fc-cache -f
+
+    when: not (f.stat.isdir is defined and f.stat.isdir)
