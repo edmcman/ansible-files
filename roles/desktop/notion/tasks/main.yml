@@ -105,6 +105,12 @@
     regexp: '^--dopath("mod_statusbar")'
     line: 'dopath("mod_statusbar")'
     backup: true
+- name: Set xterm
+  lineinfile:
+    path: /usr/local/etc/notion/cfg_notion.lua
+    regexp: '^--XTERM='
+    line: XTERM="x-terminal-emulator"
+    backup: true
 - name: Define statusbar template
   lineinfile:
     path: /usr/local/etc/notion/cfg_statusbar.lua
