@@ -2,7 +2,7 @@
 
 1. `./scripts/install_ansible.bash`
 2. `ansible-galaxy install -r requirements.yml`
-3. `ansible-playbook --connection=local -i localhost, local.yml -K`
+3. `sudo -E ansible-playbook --connection=local -i localhost, local.yml`
 
 # TODO
 
