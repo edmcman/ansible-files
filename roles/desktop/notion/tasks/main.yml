@@ -41,20 +41,45 @@
   # when /usr/local/bin/notion doesn't exist
   when: not (notionbin.stat.isreg is defined and notionbin.stat.isreg)
 
-- name: Install notion-gnome.desktop
-  template:
-    src: notion-gnome.desktop.j2
-    dest: /usr/share/xsessions/notion-gnome.desktop
-
 - name: Install notion.desktop
   template:
     src: notion.desktop.j2
     dest: /usr/share/applications/notion.desktop
 
-- name: Install notion.session
+- name: Install notion-gnome.desktop
   template:
-    src: notion.session.j2
-    dest: /usr/share/gnome-session/sessions/notion.session
+    src: notion-gnome.desktop.j2
+    dest: /usr/share/xsessions/notion-gnome.desktop
+
+# These are for running notion with unity.  Since unity is outdated, this is
+# deprecated now.
+- name: Install notion-unity.desktop
+  template:
+    src: notion-unity.desktop.j2
+    dest: /usr/share/xsessions/notion-unity.desktop
+
+- name: Install notion-unity.session
+  template:
+    src: notion-unity.session.j2
+    dest: /usr/share/gnome-session/sessions/notion-unity.session
+
+# To run notion with gnome, we'll copy the existing ubuntu.session file.
+- name: Copy ubuntu.session
+  copy:
+    src: /usr/share/gnome-session/sessions/ubuntu.session
+    dest: /usr/share/gnome-session/sessions/notion-gnome.session
+
+# Change org.gnome.Shell to notion
+- name: Change org.gnome.Shell to notion
+  replace:
+    path: /usr/share/gnome-session/sessions/notion-gnome.session
+    regexp: 'org\.gnome\.Shell'
+    replace: notion
+
+# There is also
+# /usr/lib/systemd/user/gnome-session@ubuntu.target.d/ubuntu.session.conf which
+# requires Shell but references the other  components.  Do we need to copy this
+# too?
 
 - name: Set META
   lineinfile:
@@ -87,8 +112,22 @@
     insertafter: 'mod_statusbar\.create\{'
     #regexp: '--template='
     backup: true
+
+- name: Enable notion 3 keybindings
+  block:
+    - copy:
+        src: /usr/local/etc/notion/cfg_notion3_keybindings.lua
+        dest: /usr/local/etc/notion/cfg_bindings.lua
+        # We do want to overwrite the existing file
+        force: true
+    - copy:
+        src: /usr/local/etc/notion/cfg_notion3_tiling.lua
+        dest: /usr/local/etc/notion/cfg_tiling.lua
+        # We do want to overwrite the existing file
+        force: true
+
 - name: Download linuxbatt script
   get_url:
-    url: https://github.com/raboof/notion/blob/main/contrib/statusd/statusd_linuxbatt.lua
+    url: https://github.com/raboof/notion/raw/main/contrib/statusd/statusd_linuxbatt.lua
     dest: /usr/local/etc/notion/statusd_linuxbatt.lua
     force: false
