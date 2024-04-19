@@ -20,3 +20,6 @@ dconf_settings:
     #value: "'SauceCodePro Nerd Font Mono 14'"
     #value: "'Inconsolata Nerd Font Mono 14'"
     value: "'Hack Nerd Font Mono 14'"
+
+  - key: /org/gnome/desktop/interface/font-name
+    value: "'Ubuntu Nerd Font 14'"
