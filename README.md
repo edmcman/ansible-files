@@ -7,7 +7,8 @@
 # TODO
 
 * SEI CA certificates (for firefox)
-* notion
+* volume keys
+* Why doesn't session/exit work?
 * git credential helper
 * github gh command
 * aws cli
@@ -15,6 +16,7 @@
 * vmware
 * nvidia cuda
 * Kerberos
+* dorothy?
 
 # Thoughts
 
