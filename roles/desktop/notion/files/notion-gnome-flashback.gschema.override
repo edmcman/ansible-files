@@ -1,0 +1,10 @@
+[org.gnome.desktop.wm.preferences:notion-gnome-flashback]
+button-layout='appmenu:close'
+
+[org.gnome.desktop.wm.keybindings:notion-gnome-flashback]
+switch-input-source=[]
+switch-input-source-backward=[]
+
+[org.gnome.gnome-flashback:notion-gnome-flashback]
+desktop=false
+root-background=true

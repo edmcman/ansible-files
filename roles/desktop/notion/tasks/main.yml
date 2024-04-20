@@ -41,6 +41,12 @@
   # when /usr/local/bin/notion doesn't exist
   when: not (notionbin.stat.isreg is defined and notionbin.stat.isreg)
 
+# Gnome 3 without shell works decently, but has some problems like media keys
+# not working.  Trying gnome-flashback to address this.
+- name: Install gnome-flashback
+  apt:
+    pkg: gnome-session-flashback
+
 - name: Install notion.desktop
   copy:
     src: notion.desktop
@@ -50,6 +56,11 @@
   copy:
     src: notion-gnome.desktop
     dest: /usr/share/xsessions/notion-gnome.desktop
+
+- name: Install notion-gnome-flashback.desktop
+  copy:
+    src: notion-gnome-flashback.desktop
+    dest: /usr/share/xsessions/notion-gnome-flashback.desktop
 
 # These are for running notion with unity.  Since unity is outdated, this is
 # deprecated now.
@@ -74,6 +85,38 @@
     path: /usr/share/gnome-session/sessions/notion-gnome.session
     regexp: 'org\.gnome\.Shell'
     replace: notion;stalonetray
+
+# Same thing, but for gnome-flashback
+
+- name: Copy gnome-flashback-metacity.session to notion-gnome-flashback.session
+  copy:
+    src: /usr/share/gnome-session/sessions/gnome-flashback-metacity.session
+    dest: /usr/share/gnome-session/sessions/notion-gnome-flashback.session
+
+- name: 'notion-gnome-flashback.session: Change metacity to notion and add stalonetray'
+  replace:
+    path: /usr/share/gnome-session/sessions/notion-gnome-flashback.session
+    regexp: 'metacity'
+    replace: notion;stalonetray
+
+- name: 'notion-gnome-flashback.session: Remove gnome-panel'
+  replace:
+    path: /usr/share/gnome-session/sessions/notion-gnome-flashback.session
+    regexp: ';gnome-panel'
+
+- name: Symlink systemd target for notion-gnome-flashback session to gnome-flashback-metacity session
+  file:
+    src: /usr/lib/systemd/user/gnome-session@gnome-flashback-metacity.target.d
+    dest: /usr/lib/systemd/user/gnome-session@notion-gnome-flashback.target.d
+    state: link
+
+- name: Install gconf override for notion-gnome-flashback
+  copy:
+    src: notion-gnome-flashback.gschema.override
+    dest: /usr/share/glib-2.0/schemas/01_notion-gnome-flashback.gschema.override
+  notify: Compile glib schemas
+
+
 
 # There is also
 # /usr/lib/systemd/user/gnome-session@ubuntu.target.d/ubuntu.session.conf which

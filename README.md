@@ -26,6 +26,7 @@ user's profile.
 * nvidia cuda
 * Kerberos
 * dorothy?
+* Use glib overrides
 
 # Thoughts
 

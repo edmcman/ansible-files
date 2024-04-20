@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Notion with GNOME Flashback
+Comment=This session logs you into GNOME Flashback with Metacity
+Exec=gnome-session --systemd --session=notion-gnome-flashback --disable-acceleration-check "$@"
+TryExec=notion
+Type=Application
+DesktopNames=notion-gnome-flashback;GNOME-Flashback;GNOME;
+X-Ubuntu-Gettext-Domain=gnome-flashback
