@@ -27,6 +27,7 @@ user's profile.
 * Kerberos
 * dorothy?
 * Use glib overrides
+* Auto lock screen
 
 # Thoughts
 
