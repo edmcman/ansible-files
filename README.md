@@ -20,14 +20,13 @@ user's profile.
 * volume keys
 * Why doesn't session/exit work?
 * git credential helper
-* github gh command
 * aws cli
 * vmware
 * nvidia cuda
 * Kerberos
 * dorothy?
 * Use glib overrides
-* Auto lock screen
+* gnome-keyring integration
 
 # Thoughts
 

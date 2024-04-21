@@ -5,7 +5,9 @@ base_apt_packages:
 - build-essential
 - ca-certificates
 - curl
+- gh
 - git
+- git-flow
 - git-lfs
 - htop
 - nethogs
