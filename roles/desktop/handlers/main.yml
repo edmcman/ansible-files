@@ -1,0 +1,6 @@
+- name: Install libsecret git credential helper
+  become_user: '{{user_name}}'
+  community.general.git_config:
+    name: credential.helper
+    value: /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+    scope: global

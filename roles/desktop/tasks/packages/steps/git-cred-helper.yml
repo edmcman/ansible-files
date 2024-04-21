@@ -1,0 +1,14 @@
+# https://gist.github.com/maelvls/79d49740ce9208c26d6a1b10b0d95b5e
+- name: Install dependencies for git credential helper
+  apt:
+    pkg:
+      - libsecret-1-dev
+      - libglib2.0-dev
+      - git
+
+- name: Compile libsecret git credential helper
+  command:
+    cmd: make --directory=/usr/share/doc/git/contrib/credential/libsecret
+    creates: /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+  notify: Install libsecret git credential helper
+

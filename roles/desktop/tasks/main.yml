@@ -1,3 +1,4 @@
+- import_tasks: roles/desktop/tasks/packages/steps/git-cred-helper.yml
 - import_tasks: roles/desktop/tasks/packages/steps/chrome.yml
 - import_tasks: roles/desktop/tasks/packages/steps/vscode.yml
 - import_tasks: roles/desktop/tasks/packages/steps/java.yml

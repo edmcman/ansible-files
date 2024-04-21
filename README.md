@@ -19,14 +19,13 @@ user's profile.
 * beeper autostart
 * volume keys
 * Why doesn't session/exit work?
-* git credential helper
 * aws cli
 * vmware
 * nvidia cuda
 * Kerberos
 * dorothy?
 * Use glib overrides
-* gnome-keyring integration
+* gnome-keyring integration ssh-agent
 
 # Thoughts
 
