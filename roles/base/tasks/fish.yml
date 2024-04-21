@@ -6,5 +6,5 @@
 - name: Change shell to fish
   user:
     name: "{{ user_name }}"
-    shell: "/bin/fish"
+    shell: "/usr/bin/fish"
 
