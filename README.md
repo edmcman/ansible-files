@@ -17,7 +17,6 @@ user's profile.
 * AppImageLauncher? https://github.com/TheAssassin/AppImageLauncher/wiki/Install-on-Ubuntu-or-Debian
 * SEI CA certificates (for firefox)
 * beeper autostart
-* volume keys
 * Why doesn't session/exit work?
 * aws cli
 * vmware
