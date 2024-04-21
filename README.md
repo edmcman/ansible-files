@@ -23,8 +23,6 @@ user's profile.
 * nvidia cuda
 * Kerberos
 * dorothy?
-* Use glib overrides for preferences
-* gnome-keyring integration ssh-agent
 
 # Thoughts
 

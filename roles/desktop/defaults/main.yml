@@ -23,3 +23,15 @@ dconf_settings:
 
   - key: /org/gnome/desktop/interface/font-name
     value: "'Ubuntu Nerd Font 14'"
+
+  - key: /org/gnome/desktop/screensaver/lock-enabled
+    value: true
+
+  - key: /org/gnome/desktop/session/idle-delay
+    value: 300
+
+  - key: /org/gnome/desktop/screensaver/lock-delay
+    value: 0
+
+  - key: /org/gnome/desktop/screensaver/ubuntu-lock-on-suspend
+    value: true
