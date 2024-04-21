@@ -18,3 +18,6 @@
 
 - src: gotmax23.zoom
   version: v0.0.4
+
+# Might be deprecated?
+- src: vmware.vmware-workstation

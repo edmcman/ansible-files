@@ -5,6 +5,8 @@ base_apt_packages:
 - build-essential
 - ca-certificates
 - curl
+- gcc-12
+- g++-12
 - gh
 - git
 - git-flow

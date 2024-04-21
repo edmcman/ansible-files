@@ -1,4 +1,5 @@
 desktop_apt_packages:
+  - gcc-12 # vmware
   - dconf-editor
   - emacs
   - gnome-screenshot
