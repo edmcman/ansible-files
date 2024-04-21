@@ -19,7 +19,6 @@ user's profile.
 * beeper autostart
 * Why doesn't session/exit work?
 * aws cli
-* nvidia cuda
 * Kerberos
 * dorothy?
 

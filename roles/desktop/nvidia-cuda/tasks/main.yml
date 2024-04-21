@@ -1,0 +1,14 @@
+- name: Install nvidia cuda-keyring deb
+  apt:
+    deb: "{{ cuda_keyring_deb }}"
+  notify: Apt update
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Install nvidia kernel drivers
+  apt:
+    name:
+      - "cuda-toolkit-{{ cuda_toolkit_version }}"
+      - "nvidia-driver-{{ nvidia_driver_version }}-open"
+      - "cuda-drivers-{{ nvidia_driver_version }}"

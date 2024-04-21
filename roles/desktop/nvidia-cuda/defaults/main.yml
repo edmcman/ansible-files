@@ -1,0 +1,5 @@
+cuda_keyring_deb: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+
+cuda_toolkit_version: 12-4
+
+nvidia_driver_version: 550

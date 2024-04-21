@@ -21,3 +21,6 @@
 
 - import_role:
     name: vmware.vmware-workstation
+
+- import_role:
+    name: roles/desktop/nvidia-cuda
