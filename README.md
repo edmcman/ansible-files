@@ -21,6 +21,7 @@ user's profile.
 * aws cli
 * Kerberos
 * dorothy?
+* TCG opal auto resume
 
 # Thoughts
 
