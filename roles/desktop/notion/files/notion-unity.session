@@ -1,4 +1,0 @@
-[GNOME Session]
-Name=Unity with Notion Session
-RequiredComponents=notion;unity-settings-daemon;
-DesktopName=Notion

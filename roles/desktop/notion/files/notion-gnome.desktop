@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Notion with GNOME Desktop
-Exec=env GNOME_SHELL_SESSION_MODE=ubuntu /usr/bin/gnome-session --session=notion-gnome
-TryExec=notion
-Type=Application
-# Do we want GNOME here?
-DesktopNames=ubuntu:GNOME
-X-GDM-SessionRegisters=true
-X-Ubuntu-Gettext-Domain=gnome-session-42

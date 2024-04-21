@@ -1,0 +1,3 @@
+[submodule "roles/desktop/notion"]
+	path = roles/desktop/notion
+	url = https://github.com/edmcman/ansible-notion
