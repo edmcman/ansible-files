@@ -1,0 +1,12 @@
+---
+# tasks file for displaylink
+- name: Install synaptics repository
+  apt:
+    deb: https://www.synaptics.com/sites/default/files/Ubuntu/pool/stable/main/all/synaptics-repository-keyring.deb
+  notify: Apt update
+
+- meta: flush_handlers
+
+- name: Install displaylink driver
+  apt:
+    name: displaylink-driver

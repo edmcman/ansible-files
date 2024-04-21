@@ -1,0 +1,5 @@
+---
+# handlers file for displaylink
+- name: Apt update
+  apt:
+    update_cache: true

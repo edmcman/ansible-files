@@ -18,12 +18,6 @@
         src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ version }}/{{ item }}.tar.xz"
         dest: "{{ fontdir }}/{{ item }}"
         remote_src: true
-
-    # This is super inefficient because we'll call it for each installed font.
-    # But because of the loop/block limitation, I don't see an easy way around
-    # it! I guess we could return something and the main.yml could use a
-    # handler.  But yuck.
-    - name: Regenerate font cache
-      command: fc-cache -f
+      notify: Regenerate font cache
 
     when: not (f.stat.isdir is defined and f.stat.isdir)

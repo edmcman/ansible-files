@@ -1,0 +1,3 @@
+---
+# defaults file for displaylink
+synaptics_repo_deb: https://www.synaptics.com/sites/default/files/Ubuntu/pool/stable/main/all/synaptics-repository-keyring.deb

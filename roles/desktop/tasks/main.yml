@@ -21,6 +21,13 @@
 
 - import_role:
     name: vmware.vmware-workstation
+  tags:
+    - vmware
+    - initial
+    - never
 
 - import_role:
     name: roles/desktop/nvidia-cuda
+
+- import_role:
+    name: roles/desktop/displaylink-driver
