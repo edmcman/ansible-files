@@ -23,6 +23,7 @@ user's profile.
 * dorothy?
 * TCG opal auto resume
 * Why doesn't screenshot key register?
+* Is it possible to get personal & work Chrome profiles to go to the right frame automatically?
 
 # Thoughts
 
