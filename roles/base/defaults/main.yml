@@ -5,8 +5,9 @@ base_apt_packages:
 - build-essential
 - ca-certificates
 - curl
-- gcc-12
+- emacs-nox
 - g++-12
+- gcc-12
 - gh
 - git
 - git-flow
@@ -17,7 +18,7 @@ base_apt_packages:
 - python3-pip
 - tmux
 - tree
-- emacs-nox
+- unattended-upgrades
 
 latex_apt_packages:
 - inkscape
