@@ -22,6 +22,7 @@ user's profile.
 * Kerberos
 * dorothy?
 * TCG opal auto resume
+* Why doesn't screenshot key register?
 
 # Thoughts
 
