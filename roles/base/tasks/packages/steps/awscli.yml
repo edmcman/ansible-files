@@ -1,0 +1,6 @@
+# Install aws cli v2
+- name: Install aws-cli
+  community.general.snap:
+    name: aws-cli
+    channel: v2/stable
+    classic: true

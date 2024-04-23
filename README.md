@@ -16,8 +16,7 @@ user's profile.
 
 * AppImageLauncher? https://github.com/TheAssassin/AppImageLauncher/wiki/Install-on-Ubuntu-or-Debian
 * SEI CA certificates (for firefox)
-* Why doesn't session/exit work?
-* aws cli
+* Why doesn't session/exit work?  Also notion saved layout.
 * Kerberos
 * dorothy?
 * TCG opal auto resume
