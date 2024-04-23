@@ -8,3 +8,14 @@
   package:
     name: libfuse2
     state: present
+
+- name: Add .desktop file
+  copy:
+    src: beeper.desktop
+    dest: /usr/share/applications/beeper.desktop
+
+- name: Autostart beeper
+  file:
+    src: /usr/share/applications/beeper.desktop
+    dest: "/home/{{ user_name }}/.config/autostart/beeper.desktop"
+    state: link

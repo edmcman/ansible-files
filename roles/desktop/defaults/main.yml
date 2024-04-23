@@ -1,5 +1,6 @@
 desktop_apt_packages:
   - d-feet
+  - dex
   - gcc-12 # vmware
   - dconf-editor
   - emacs

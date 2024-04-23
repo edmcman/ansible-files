@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=/usr/local/bin/beeper
+Name=beeper
+Type=Application
