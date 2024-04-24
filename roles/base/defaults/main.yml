@@ -2,7 +2,7 @@ llvm_version: 18
 
 base_apt_packages:
 - apt-file
-- batcat
+- bat
 - build-essential
 - ca-certificates
 - curl
