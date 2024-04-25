@@ -8,6 +8,8 @@
 - import_tasks: roles/base/tasks/packages/steps/docker.yml
 # gh cli
 - import_tasks: roles/base/tasks/packages/steps/gh-cli.yml
+# rr
+- import_tasks: roles/base/tasks/packages/steps/rr.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
 # Fish

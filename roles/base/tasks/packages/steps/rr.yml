@@ -1,0 +1,10 @@
+- name: Install rr
+  apt:
+    deb: "{{ rr_deb }}"
+
+- name: Configure sysctl for rr
+  ansible.posix.sysctl:
+    name: kernel.perf_event_paranoid
+    value: '1'
+    sysctl_file: /etc/sysctl.d/10-rr.conf
+    reload: true
