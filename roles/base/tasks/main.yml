@@ -6,6 +6,8 @@
 - import_tasks: roles/base/tasks/packages/steps/llvm.yml
 # Docker
 - import_tasks: roles/base/tasks/packages/steps/docker.yml
+# gh cli
+- import_tasks: roles/base/tasks/packages/steps/gh-cli.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
 # Fish
