@@ -3,3 +3,5 @@ cuda_keyring_deb: https://developer.download.nvidia.com/compute/cuda/repos/ubunt
 cuda_toolkit_version: 12-4
 
 nvidia_driver_version: 550
+
+nvidia_use_open_drivers: false

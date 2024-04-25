@@ -6,9 +6,16 @@
 - name: Flush handlers
   meta: flush_handlers
 
-- name: Install nvidia kernel drivers
+- name: Install nvidia kernel drivers (closed)
+  apt:
+    name:
+      - "cuda-drivers-{{ nvidia_driver_version }}"
+  when: not nvidia_use_open_drivers
+
+- name: Install nvidia kernel drivers (open)
   apt:
     name:
       - "cuda-toolkit-{{ cuda_toolkit_version }}"
       - "nvidia-driver-{{ nvidia_driver_version }}-open"
       - "cuda-drivers-{{ nvidia_driver_version }}"
+  when: nvidia_use_open_drivers
