@@ -2,6 +2,7 @@ llvm_version: 18
 
 base_apt_packages:
 - apt-file
+- aria2
 - bat
 - build-essential
 - ca-certificates
@@ -14,6 +15,7 @@ base_apt_packages:
 - git-flow
 - git-lfs
 - htop
+- ncdu
 - nethogs
 - plocate
 - python3-pip
