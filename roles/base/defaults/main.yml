@@ -21,6 +21,7 @@ base_apt_packages:
 - ncdu
 - nethogs
 - plocate
+- pv
 - python3-pip
 - python3-venv
 - tmux
