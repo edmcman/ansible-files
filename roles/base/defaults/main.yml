@@ -17,10 +17,12 @@ base_apt_packages:
 - git-flow
 - git-lfs
 - htop
+- lftp
 - ncdu
 - nethogs
 - plocate
 - python3-pip
+- python3-venv
 - tmux
 - tree
 - unattended-upgrades
