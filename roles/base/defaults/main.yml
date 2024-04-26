@@ -2,6 +2,13 @@ llvm_version: 18
 
 rr_deb: https://github.com/rr-debugger/rr/releases/download/5.7.0/rr-5.7.0-Linux-x86_64.deb
 
+git_prefs:
+  - { name: pull.ff, value: only }
+  - { name: core.editor, value: 'code --wait' }
+  # Desktop role overrides this with libsecret helper but using an Ansible
+  # handler.  So if we turn this on, this version will overwrite that config.
+  #- { name: credential.helper, value: 'cache --timeout=99999999'}
+
 base_apt_packages:
 - apt-file
 - aria2

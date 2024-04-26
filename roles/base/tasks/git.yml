@@ -8,8 +8,13 @@
   with_items:
     - { name: user.name, value: '{{git_user_name}}' }
     - { name: user.email, value: '{{git_user_email}}' }
-    - { name: core.editor, value: 'code --wait' }
-    # Desktop role overrides this with libsecret helper but using an Ansible
-    # handler.  So if we turn this on, this version will overwrite that config.
-    #- { name: credential.helper, value: 'cache --timeout=99999999'}
   when: git_user_name is defined and git_user_email is defined
+
+- name: setup git user
+  tags: user_config
+  become_user: '{{user_name}}'
+  community.general.git_config:
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    scope: global
+  loop: "{{ git_prefs }}"
