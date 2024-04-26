@@ -1,0 +1,25 @@
+---
+# Inspired from https://github.com/AlbanAndrieu/ansible-dropbox
+- block:        # block for installing on Debian derivatives
+
+  - name: Add dropbox repo key
+    ansible.builtin.get_url:
+      url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+      dest: /etc/apt/keyrings/dropbox.asc
+      checksum: sha256:230f13cc852501ec9226686f187232fc875cab16f8b183e62ae3594f1d77fd6d
+
+  - name: Add dropbox repo
+    ansible.builtin.apt_repository:
+      repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/dropbox.asc] http://linux.dropbox.com/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+      state: present
+      filename: dropbox
+    notify: Apt update
+
+  - meta: flush_handlers
+
+  - name: dropbox | Install Dropbox
+    apt:
+      name: dropbox
+      state: present
+    
+  when: ansible_os_family == 'Debian'

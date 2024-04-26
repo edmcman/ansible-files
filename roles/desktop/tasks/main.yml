@@ -1,3 +1,7 @@
+- import_tasks: roles/desktop/tasks/packages/steps/dropbox.yml
+  tags:
+    - dropbox
+    - never # most people probably don't want drop box
 - import_tasks: roles/desktop/tasks/packages/steps/git-cred-helper.yml
 - import_tasks: roles/desktop/tasks/packages/steps/chrome.yml
 - import_tasks: roles/desktop/tasks/packages/steps/vscode.yml
