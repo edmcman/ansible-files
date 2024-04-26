@@ -19,6 +19,7 @@ user's profile.
 * Why doesn't session/exit work?  Also notion saved layout.
 * dorothy?
 * TCG opal auto resume
+* pyenv
 * Why doesn't screenshot key register?
 * Is it possible to get personal & work Chrome profiles to go to the right frame
   automatically?  Probably, using `--user-data-dir` and `--class`.
