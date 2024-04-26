@@ -4,3 +4,6 @@
 - name: Install latex apt packages
   ansible.builtin.apt:
     name: "{{ latex_apt_packages }}"
+- name: Install research apt packages
+  ansible.builtin.apt:
+    name: "{{ research_apt_packages }}"

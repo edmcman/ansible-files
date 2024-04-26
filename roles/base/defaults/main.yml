@@ -58,3 +58,6 @@ latex_apt_packages:
 - texlive-publishers-doc
 - texlive-science
 - texlive-science-doc
+
+research_apt_packages:
+- libsentencepiece-dev
