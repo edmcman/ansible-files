@@ -5,3 +5,10 @@
     temurin_packages:
       - adoptium-ca-certificates
       - temurin-17-jdk
+
+- name: Set JAVA_HOME
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    regexp: '^JAVA_HOME'
+    line: 'JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64'
