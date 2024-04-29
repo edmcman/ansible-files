@@ -20,7 +20,7 @@ user's profile.
 * dorothy?
 * sedutil, rear
 * pyenv
-* wine office? https://www.reddit.com/r/linuxmasterrace/comments/hhvx17/comment/fwd7bhu/
+* wine office? https://ruados.github.io/articles/2021-05/office365-wine
 * Why doesn't screenshot key register?
 * Is it possible to get personal & work Chrome profiles to go to the right frame
   automatically?  Probably, using `--user-data-dir` and `--class`.
