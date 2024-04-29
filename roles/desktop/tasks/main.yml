@@ -17,6 +17,12 @@
 - import_tasks: roles/desktop/tasks/pin.yml
 - import_tasks: roles/desktop/tasks/dconf.yml
 
+- import_tasks: roles/desktop/tasks/opal.yml
+  tags:
+    - opal
+    - tcgopal
+    - never
+
 - import_role:
     name: roles/desktop/notion
 

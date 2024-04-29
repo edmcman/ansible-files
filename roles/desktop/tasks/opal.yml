@@ -1,0 +1,31 @@
+- name: See if opal suspend tools are already installed
+  stat:
+    path: /etc/systemd/system/systemd-suspend.service
+  register: filestat
+
+- name: Install opal suspend tools 
+  block:
+    - name: Create source directory
+      file:
+        state: directory
+        path: /usr/local/src/
+
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: https://github.com/ahroach/opal_suspend
+        dest: /usr/local/src/opal_suspend
+        version: a9116cf8a03931194b815a71e62144e1bb038c9a
+
+    - name: Build
+      command:
+        chdir: /usr/local/src/opal_suspend
+        creates: /usr/local/sbin/opal_key_save
+        cmd: make
+
+    - name: Install
+      command:
+        chdir: /usr/local/src/opal_suspend
+        creates: /usr/local/sbin/opal_key_save
+        cmd: make install
+
+  when: not filestat.stat.exists

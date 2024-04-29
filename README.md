@@ -18,7 +18,7 @@ user's profile.
 * SEI CA certificates (for firefox)
 * Why doesn't session/exit work?  Also notion saved layout.
 * dorothy?
-* TCG opal auto resume
+* sedutil, rear
 * pyenv
 * Why doesn't screenshot key register?
 * Is it possible to get personal & work Chrome profiles to go to the right frame
