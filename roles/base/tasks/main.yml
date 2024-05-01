@@ -1,10 +1,5 @@
 # Install base apt packages
 - import_tasks: roles/base/tasks/packages/steps/apt.yml
-# alacritty
-- import_tasks: roles/base/tasks/packages/steps/alacritty.yml
-  tags:
-    - none
-    - alacritty
 # AWS cli
 - import_tasks: roles/base/tasks/packages/steps/awscli.yml
 # LLVM

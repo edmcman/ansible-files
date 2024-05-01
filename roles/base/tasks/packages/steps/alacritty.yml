@@ -1,4 +1,0 @@
-- name: Install alacritty
-  community.general.snap:
-    name: alacritty
-    classic: true
