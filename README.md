@@ -18,7 +18,8 @@ user's profile.
 * SEI CA certificates (for firefox)
 * Why doesn't session/exit work?  Also notion saved layout.
 * dorothy?
-* sedutil, rear
+* rear
+* sedutil better version than linux_stable
 * pyenv
 * wine office? https://ruados.github.io/articles/2021-05/office365-wine
 * Why doesn't screenshot key register?
