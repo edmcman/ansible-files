@@ -41,3 +41,6 @@
 
 - import_role:
     name: roles/desktop/displaylink-driver
+
+- import_role:
+    name: roles/desktop/wine

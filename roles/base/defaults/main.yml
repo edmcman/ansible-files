@@ -28,6 +28,7 @@ base_apt_packages:
 - ncdu
 - nethogs
 - plocate
+- powertop
 - pv
 - python3-pip
 - python3-venv

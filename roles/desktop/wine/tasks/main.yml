@@ -1,0 +1,31 @@
+---
+- name: Enable i386 architecture in dpkg
+  lineinfile:
+    dest: '/var/lib/dpkg/arch'
+    line: i386
+  notify: Apt update
+
+- name: Add WineHQ key
+  apt_key:
+    url: https://dl.winehq.org/wine-builds/winehq.key
+    state: present
+
+- name: Add WineHQ repository
+  apt_repository:
+    repo: "deb http://dl.winehq.org/wine-builds/ubuntu/ {{ ansible_distribution_release }} main"
+    state: present
+  notify: Apt update
+
+- name: Flush handlers
+  meta: flush_handlers
+  
+- name: Install winehq-stable
+  apt:
+    name: winehq-stable
+    state: present
+    install_recommends: yes
+
+- name: Install other packages
+  apt:
+    name:
+      - winetricks

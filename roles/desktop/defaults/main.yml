@@ -19,11 +19,14 @@ dconf_settings:
   - key: /org/gnome/desktop/interface/font-antialiasing
     value: "'rgba'"
 
+  - key: /org/gnome/desktop/interface/font-hinting
+    value: "'full'"
+
   - key: /org/gnome/desktop/interface/monospace-font-name
     #value: "'JetBrainsMono Nerd Font Regular 14'"
     #value: "'SauceCodePro Nerd Font Mono 14'"
     #value: "'Inconsolata Nerd Font Mono 14'"
-    value: "'Hack Nerd Font Mono 14'"
+    value: "'Hack Nerd Font Mono 21'"
 
   - key: /org/gnome/desktop/interface/font-name
     value: "'Ubuntu Nerd Font 14'"
@@ -39,3 +42,6 @@ dconf_settings:
 
   - key: /org/gnome/desktop/screensaver/ubuntu-lock-on-suspend
     value: true
+
+  - key: /org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/cell-height-scale
+    value: 1.10
