@@ -1,28 +1,40 @@
-- name: Check if sedutil-cli exists
-  stat:
-    path: /usr/local/sbin/sedutil-cli
-  register: sedutil_cli_exists
+- name: Create directory for sedutil package
+  file:
+    path: /usr/local/src
+    state: directory
 
-- block:
-  - name: Create directory for sedutil package
-    file:
-      path: /usr/local/src
-      state: directory
+- name: Download sedutil package
+  get_url:
+    url: https://github.com/Drive-Trust-Alliance/sedutil/archive/3ddb9865e49f81bef3a99417e4814ed59efaff5d.tar.gz
+    dest: /usr/local/src/sedutil.tar.gz
 
-  - name: Download sedutil package
-    get_url:
-      url: https://github.com/Drive-Trust-Alliance/sedutil/archive/refs/tags/linux_works.tar.gz
-      dest: /usr/local/src/linux_works.tar.gz
+- name: Extract sedutil package
+  unarchive:
+    src: /usr/local/src/sedutil.tar.gz
+    dest: /usr/local/src
+    remote_src: no
+    creates: /usr/local/src/sedutil-3ddb9865e49f81bef3a99417e4814ed59efaff5d
 
-  - name: Extract sedutil package
-    unarchive:
-      src: /usr/local/src/linux_works.tar.gz
-      dest: /usr/local/src
-      remote_src: no
+- name: Build sedutil package
+  shell:
+    cmd: autoreconf -i && ./configure --enable-silent-rules && make && make install
+    chdir: /usr/local/src/sedutil-3ddb9865e49f81bef3a99417e4814ed59efaff5d
+    creates: /usr/local/sbin/sedutil-cli
 
-  - name: Build sedutil package
-    shell:
-      cmd: autoreconf -i && ./configure --enable-silent-rules && make && make install
-      chdir: /usr/local/src/sedutil-linux_works
-      creates: /usr/local/sbin/sedutil-cli
-  when: not sedutil_cli_exists.stat.exists
+- name: Download rear package
+  get_url:
+    url: https://github.com/rear/rear/archive/410559f3dcbb517b93350523780b8a380f38dea8.tar.gz
+    dest: /usr/local/src/rear.tar.gz
+
+- name: Extract rear package
+  unarchive:
+    src: /usr/local/src/rear.tar.gz
+    dest: /usr/local/src
+    remote_src: no
+    creates: /usr/local/src/rear-410559f3dcbb517b93350523780b8a380f38dea8
+
+- name: Install rear package
+  command:
+    cmd: make install
+    chdir: /usr/local/src/rear-410559f3dcbb517b93350523780b8a380f38dea8
+    creates: /usr/sbin/rear
