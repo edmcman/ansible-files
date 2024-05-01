@@ -1,0 +1,28 @@
+- name: Check if sedutil-cli exists
+  stat:
+    path: /usr/local/sbin/sedutil-cli
+  register: sedutil_cli_exists
+
+- block:
+  - name: Create directory for sedutil package
+    file:
+      path: /usr/local/src
+      state: directory
+
+  - name: Download sedutil package
+    get_url:
+      url: https://github.com/Drive-Trust-Alliance/sedutil/archive/refs/tags/linux_works.tar.gz
+      dest: /usr/local/src/linux_works.tar.gz
+
+  - name: Extract sedutil package
+    unarchive:
+      src: /usr/local/src/linux_works.tar.gz
+      dest: /usr/local/src
+      remote_src: no
+
+  - name: Build sedutil package
+    shell:
+      cmd: autoreconf -i && ./configure --enable-silent-rules && make && make install
+      chdir: /usr/local/src/sedutil-linux_works
+      creates: /usr/local/sbin/sedutil-cli
+  when: not sedutil_cli_exists.stat.exists

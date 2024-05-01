@@ -10,6 +10,8 @@
 - import_tasks: roles/base/tasks/packages/steps/gh-cli.yml
 # rr
 - import_tasks: roles/base/tasks/packages/steps/rr.yml
+# sedutil
+- import_tasks: roles/base/tasks/packages/steps/sedutil.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
 # Fish
