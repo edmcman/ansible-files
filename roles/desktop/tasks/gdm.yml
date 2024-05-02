@@ -1,0 +1,6 @@
+- name: Enable verbose debugging in gdm
+  lineinfile:
+    path: /etc/gdm3/custom.conf
+    insertafter: "[debug]"
+    line: 'Enable=true'
+    state: present
