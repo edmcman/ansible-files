@@ -1,3 +1,5 @@
+warp_deb: https://app.warp.dev/download?package=deb
+
 desktop_apt_packages:
   - d-feet
   - dex
