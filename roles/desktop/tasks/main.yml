@@ -22,6 +22,9 @@
 - import_tasks: roles/desktop/tasks/pin.yml
 - import_tasks: roles/desktop/tasks/dconf.yml
 - import_tasks: roles/desktop/tasks/gdm.yml
+  tags:
+    - gdm
+    - never
 
 - import_tasks: roles/desktop/tasks/opal.yml
   tags:
