@@ -1,5 +1,8 @@
 warp_deb: https://app.warp.dev/download?package=deb
 
+# gnome-terminal is 40 for reference
+warp_priority: 100
+
 desktop_apt_packages:
   - d-feet
   - dex

@@ -1,3 +1,21 @@
-- name: Install warp deb
-  apt:
-    deb: "{{ warp_deb }}"
+- name: Check if warp-terminal command exists
+  stat:
+    path: /usr/bin/warp-terminal
+  register: warp_terminal_check
+
+- name: Install warp
+  block:
+
+    - name: Install warp deb
+      apt:
+        deb: "{{ warp_deb }}"
+
+    - name: Add alternative
+      community.general.alternatives:
+        name: x-terminal-emulator
+        link: /usr/bin/x-terminal-emulator
+        path: /usr/bin/warp-terminal
+        priority: "{{ warp_priority }}"
+        state: auto
+
+  when: not warp_terminal_check.stat.exists

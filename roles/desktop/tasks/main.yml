@@ -12,11 +12,11 @@
     - zoom
     - initial
     - never # don't enable by default because it downloads the deb every time!
-# - import_tasks: roles/desktop/tasks/packages/steps/warp.yml
-#   tags:
-#     - warp
-#     - initial
-#     - never
+- import_tasks: roles/desktop/tasks/packages/steps/warp.yml
+  tags:
+    - warp
+    - initial
+    - never
 - import_tasks: roles/desktop/tasks/packages/steps/beeper.yml
 
 - import_tasks: roles/desktop/tasks/pin.yml
