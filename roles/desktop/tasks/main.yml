@@ -17,8 +17,12 @@
     - warp
     - initial
     - never
+
+
 - import_tasks: roles/desktop/tasks/packages/steps/beeper.yml
 
+# Fix Print Screen key wrongly mapped to Tools
+- import_tasks: roles/desktop/tasks/modmap.yml
 - import_tasks: roles/desktop/tasks/pin.yml
 - import_tasks: roles/desktop/tasks/dconf.yml
 - import_tasks: roles/desktop/tasks/gdm.yml

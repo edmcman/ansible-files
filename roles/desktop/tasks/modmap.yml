@@ -1,0 +1,13 @@
+# For some reason my keyboard thinks Tools is Print.
+- name: Set XF86Tools to Print
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user_name }}/.Xmodmap"
+    regexp: '^keycode XF86Tools ='
+    line: keycode XF86Tools = Print
+
+- name: Auto-run xmodmap
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user_name }}/.config/autostart/xmodmap.desktop"
+    line: "Exec=/usr/bin/xmodmap /home/{{ user_name }}/.Xmodmap"
+    create: yes
+    state: present
