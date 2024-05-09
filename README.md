@@ -19,21 +19,7 @@ user's profile.
 # TODO
 
 * AppImageLauncher? https://github.com/TheAssassin/AppImageLauncher/wiki/Install-on-Ubuntu-or-Debian
-* SEI CA certificates (for firefox)
 * Why doesn't session/exit work?  Also notion saved layout.
-* dorothy?
-* rear
-* sedutil better version than linux_stable
+* Install dorothy?
 * pyenv
 * wine office? https://ruados.github.io/articles/2021-05/office365-wine
-* Why doesn't screenshot key register?
-* Is it possible to get personal & work Chrome profiles to go to the right frame
-  automatically?  Probably, using `--user-data-dir` and `--class`.
-* Auto prompt for Kerberos password?  It appears to do this with pam I'd have to rename my account.
-
-# Thoughts
-
-There are two steps:
-1. Provisioning
-2. Configuration
- 
