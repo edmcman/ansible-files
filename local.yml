@@ -5,4 +5,4 @@
   roles:
     - { role: base, tags: [ 'base' ]}
     - { role: desktop, tags: [ 'desktop' ]}
-    - { role: work, tags: [ 'work' ]}
+    #- { role: work, tags: [ 'work' ]}
