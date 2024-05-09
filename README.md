@@ -1,3 +1,7 @@
+# Ed's Ansible Configs
+
+This is how I configure my computer.  Some of it is probably reusable.  Maybe some of it is easy helpful!  Who knows.
+
 # Setup
 
 1. `./scripts/install_ansible.bash`

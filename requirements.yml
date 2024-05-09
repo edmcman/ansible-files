@@ -23,4 +23,4 @@
 - src: vmware.vmware-workstation
 
 #- name: work
-#  src: https://code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git
+#  src: git+https://code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git
