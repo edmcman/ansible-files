@@ -22,6 +22,6 @@
 # Might be deprecated?
 - src: vmware.vmware-workstation
 
-#- name: work
-#  src: git+https://code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git
-#  version: main
+- name: work
+  src: git+https://code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git
+  version: main
