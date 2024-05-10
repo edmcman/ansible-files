@@ -30,12 +30,6 @@
     - gdm
     - never
 
-- import_tasks: roles/desktop/tasks/opal.yml
-  tags:
-    - opal
-    - tcgopal
-    - never
-
 - import_role:
     name: roles/desktop/notion
 
