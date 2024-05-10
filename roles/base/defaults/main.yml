@@ -24,6 +24,7 @@ base_apt_packages:
 - git-flow
 - git-lfs
 - htop
+- iotop
 - lftp
 - ncdu
 - nethogs
