@@ -5,4 +5,4 @@
   roles:
     - { role: base, tags: [ 'base' ]}
     - { role: desktop, tags: [ 'desktop' ]}
-    - { role: sei-ansible, tags: [ 'work' ]}
+    - { role: eschwartz.sei_ansible.main, tags: [ 'work' ]}

@@ -1,27 +1,29 @@
-- name: gantsign.visual-studio-code
-  src: https://github.com/gantsign/ansible-role-visual-studio-code
-  version: 7.0.0
+roles:
+  - name: gantsign.visual-studio-code
+    src: https://github.com/gantsign/ansible-role-visual-studio-code
+    version: 7.0.0
 
-- src: darkwizard242.googlechrome
-  version: 3.0.0
+  - src: darkwizard242.googlechrome
+    version: 3.0.0
 
-- name: temurin # java
-  src: https://github.com/rolehippie/temurin
-  version: v2.0.0
+  - name: temurin # java
+    src: https://github.com/rolehippie/temurin
+    version: v2.0.0
 
-- src: geerlingguy.docker
-  version: 7.1.0
+  - src: geerlingguy.docker
+    version: 7.1.0
 
-- name: gantsign.ansible-role-pin-to-launcher
-  src: https://github.com/gantsign/ansible-role-pin-to-launcher
-  version: 4.0.0
+  - name: gantsign.ansible-role-pin-to-launcher
+    src: https://github.com/gantsign/ansible-role-pin-to-launcher
+    version: 4.0.0
 
-- src: gotmax23.zoom
-  version: v0.0.4
+  - src: gotmax23.zoom
+    version: v0.0.4
 
-# Might be deprecated?
-- src: vmware.vmware-workstation
+  # Might be deprecated?
+  - src: vmware.vmware-workstation
 
-- name: sei-ansible
-  src: git+https://code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git
-  version: main
+collections:
+  - name: git+https://eschwartz@code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git#/eschwartz/sei_ansible
+    type: git
+    version: main
