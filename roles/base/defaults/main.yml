@@ -15,6 +15,7 @@ base_apt_packages:
 - bat
 - build-essential
 - ca-certificates
+- capstone-tool
 - curl
 - emacs-nox
 - g++-12
