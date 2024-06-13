@@ -12,6 +12,7 @@ git_prefs:
 base_apt_packages:
 - apt-file
 - aria2
+- asciinema
 - bat
 - build-essential
 - ca-certificates
