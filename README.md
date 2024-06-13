@@ -23,3 +23,11 @@ user's profile.
 * Install dorothy?
 * pyenv
 * wine office? https://ruados.github.io/articles/2021-05/office365-wine
+
+# Development notes
+
+To test versions of `sei_ansible` locally, use the following command:
+
+```bash
+ansible-galaxy collection install /path/to/sei-ansible/eschwartz/ --force
+```
