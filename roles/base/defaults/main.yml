@@ -27,6 +27,11 @@ base_apt_packages:
 - git-lfs
 - htop
 - iotop
+- libcurl4-openssl-dev
+- libfreetype6-dev
+- libpng-dev
+- libtiff5-dev
+- libjpeg-dev
 - lftp
 - ncdu
 - nethogs
@@ -41,6 +46,7 @@ base_apt_packages:
 
 latex_apt_packages:
 - inkscape
+- latexmk
 - texlive
 - texlive-binaries
 - texlive-extra-utils
@@ -65,3 +71,5 @@ latex_apt_packages:
 
 research_apt_packages:
 - libsentencepiece-dev
+- r-recommended
+- r-cran-knitr
