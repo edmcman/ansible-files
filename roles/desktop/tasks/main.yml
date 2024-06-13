@@ -51,3 +51,8 @@
 
 - import_role:
     name: roles/desktop/wine
+
+- import_role:
+    name: roles/desktop/canon-printer-driver
+  tags:
+    - canon

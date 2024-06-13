@@ -1,0 +1,26 @@
+---
+# tasks file for canon-printer
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install cnrdrvcups-ufr2-us package if needed
+  when: "'cnrdrvcups-ufr2-us' not in ansible_facts.packages"
+  block:
+
+  - name: Create temporary directory
+    tempfile:
+      state: directory
+      suffix: canon-driver
+    register: temp_dir
+
+  - name: Download and extract canon printer driver
+    unarchive:
+      src: "https://pdisp01.c-wss.com/gdl/WWUFORedirectTarget.do?id=MDEwMDAwOTIzNjE4&cmp=ABR&lang=EN"
+      dest: "{{ temp_dir.path }}"
+      remote_src: yes
+
+  - name: Install canon printer driver
+    apt:
+      deb: "{{ temp_dir.path }}/linux-UFRII-drv-v590-us/x64/Debian/cnrdrvcups-ufr2-us_5.90-1.03_amd64.deb"
