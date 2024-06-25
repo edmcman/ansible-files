@@ -33,6 +33,7 @@ base_apt_packages:
 - libtiff5-dev
 - libjpeg-dev
 - lftp
+- nasm
 - ncdu
 - nethogs
 - plocate
