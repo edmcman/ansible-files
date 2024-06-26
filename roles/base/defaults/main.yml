@@ -41,6 +41,7 @@ base_apt_packages:
 - pv
 - python3-pip
 - python3-venv
+- swi-prolog
 - tmux
 - tree
 - unattended-upgrades
