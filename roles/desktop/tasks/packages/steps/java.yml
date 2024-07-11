@@ -5,6 +5,7 @@
     temurin_packages:
       - adoptium-ca-certificates
       - temurin-17-jdk
+      - temurin-21-jdk
 
 - name: Set JAVA_HOME
   lineinfile:
