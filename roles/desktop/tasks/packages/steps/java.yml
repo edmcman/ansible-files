@@ -13,3 +13,13 @@
     state: present
     regexp: '^JAVA_HOME'
     line: 'JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64'
+
+- name: Set java alternative
+  community.general.alternatives:
+    name: java
+    path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java
+
+- name: Set javac alternative
+  community.general.alternatives:
+    name: javac
+    path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/javac
