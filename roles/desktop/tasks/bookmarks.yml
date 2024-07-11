@@ -1,0 +1,13 @@
+- name: Ensure GNOME bookmarks directory exists
+  file:
+    path: "/home/{{ user_name }}/.config/gtk-3.0"
+    state: directory
+    mode: '0755'
+
+- name: Add folder to GNOME bookmarks
+  lineinfile:
+    path: "/home/{{ user_name }}/.config/gtk-3.0/bookmarks"
+    line: "file:///home/{{ user_name }}/{{ item }}"
+    create: yes
+    state: present
+  loop: "{{ bookmarks }}"
