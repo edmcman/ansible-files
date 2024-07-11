@@ -23,6 +23,7 @@ user's profile.
 * Install dorothy?
 * pyenv
 * wine office? https://ruados.github.io/articles/2021-05/office365-wine
+* Add directories to "bookmarks" in open dialogs
 
 # Development notes
 

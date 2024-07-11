@@ -27,6 +27,7 @@ base_apt_packages:
 - git-lfs
 - htop
 - iotop
+- jsonnet
 - libcurl4-openssl-dev
 - libfreetype6-dev
 - libpng-dev
@@ -36,6 +37,7 @@ base_apt_packages:
 - nasm
 - ncdu
 - nethogs
+- nmap
 - plocate
 - powertop
 - pv
