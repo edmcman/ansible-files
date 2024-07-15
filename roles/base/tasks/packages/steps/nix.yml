@@ -1,0 +1,10 @@
+- name: Install nix-bin package
+  package:
+    name: nix-bin
+    state: present
+
+- name: Add user to nix-users group
+  user:
+    name: "{{ user_name }}"
+    groups: nix-users
+    append: yes
