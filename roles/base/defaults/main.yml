@@ -15,6 +15,7 @@ base_apt_packages:
 - asciinema
 - bat
 - build-essential
+- bvi
 - ca-certificates
 - capstone-tool
 - curl
