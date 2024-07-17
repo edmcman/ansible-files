@@ -14,6 +14,8 @@
 - import_tasks: roles/base/tasks/packages/steps/rr.yml
 # nix
 - import_tasks: roles/base/tasks/packages/steps/nix.yml
+# conda
+- import_tasks: roles/base/tasks/packages/steps/conda.yml
 # Setup git
 - import_tasks: roles/base/tasks/git.yml
 # Fish

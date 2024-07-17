@@ -1,0 +1,21 @@
+- name: Install conda apt key
+  shell: wget -O- https://repo.anaconda.com/pkgs/misc/gpgkeys/anaconda.asc | gpg --dearmor -o /usr/share/keyrings/conda-archive-keyring.gpg 
+  args:
+    creates: /usr/share/keyrings/conda-archive-keyring.gpg
+
+- name: Verify conda apt key
+  shell: gpg --keyring /usr/share/keyrings/conda-archive-keyring.gpg --no-default-keyring --fingerprint 34161F5BF5EB1D4BFBBB8F0A8AEB4F8B29D82806
+  notify: Apt update
+
+- name: Add conda apt repository
+  lineinfile:
+    path: /etc/apt/sources.list.d/conda.list
+    line: "deb [arch=amd64 signed-by=/usr/share/keyrings/conda-archive-keyring.gpg] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main"
+    create: yes
+
+- meta: flush_handlers
+
+- name: Install conda
+  apt:
+    name: conda
+
