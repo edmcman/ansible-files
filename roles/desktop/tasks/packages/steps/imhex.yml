@@ -1,0 +1,11 @@
+- name: check latest imhex
+  uri:
+    url: https://api.github.com/repos/WerWolv/ImHex/releases/latest
+    return_content: true
+  register: imhex_latest
+
+- name: "installing ImHex {{ imhex_latest.json.tag_name }}"
+  loop: "{{ imhex_latest.json.assets }}"
+  when: "'Ubuntu-' + ansible_distribution_version + '-x86_64.deb' in item.name"
+  apt:
+    deb: "{{ item.browser_download_url }}"

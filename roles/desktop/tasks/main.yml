@@ -7,6 +7,11 @@
 - import_tasks: roles/desktop/tasks/packages/steps/vscode.yml
 - import_tasks: roles/desktop/tasks/packages/steps/java.yml
 - import_tasks: roles/desktop/tasks/packages/steps/apt.yml
+- import_tasks: roles/desktop/tasks/packages/steps/imhex.yml
+  tags:
+    - imhex
+    - initial
+    - never
 - import_tasks: roles/desktop/tasks/packages/steps/zoom.yml
   tags:
     - zoom
