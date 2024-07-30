@@ -7,3 +7,6 @@
 - name: Install research apt packages
   ansible.builtin.apt:
     name: "{{ research_apt_packages }}"
+- name: Install snap packages
+  community.general.snap:
+    name: "{{ snap_packages }}"

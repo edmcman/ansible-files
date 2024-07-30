@@ -78,3 +78,6 @@ research_apt_packages:
 - libsentencepiece-dev
 - r-recommended
 - r-cran-knitr
+
+snap_packages:
+- yq
