@@ -1,0 +1,6 @@
+- name: Configure sysctl to allow debugging
+  ansible.posix.sysctl:
+    name: kernel.yama.ptrace_scope
+    value: '0'
+    sysctl_file: /etc/sysctl.d/90-ptrace.conf
+    reload: true
