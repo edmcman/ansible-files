@@ -1,5 +1,7 @@
 - name: Force systemd not to suspend for unknown reasons
-  ansible.builtin.lineinfile:
+  ansible.builtin.blockinfile:
     path: /etc/systemd/logind.conf.d/10-no-stupid-suspend.conf
-    line: HandleLidSwitchExternalPower=ignore
+    block: |
+      [Login]
+      HandleLidSwitchExternalPower=ignore
     create: yes
