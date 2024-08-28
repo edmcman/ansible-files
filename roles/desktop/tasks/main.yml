@@ -35,6 +35,7 @@
   tags:
     - gdm
     - never
+- import_tasks: roles/desktop/tasks/systemd.yml
 
 - import_role:
     name: roles/desktop/notion
