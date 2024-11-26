@@ -42,6 +42,7 @@ base_apt_packages:
 - nethogs
 - nmap
 - nvidia-cuda-toolkit
+- pbzip2
 - plocate
 - powertop
 - pv
