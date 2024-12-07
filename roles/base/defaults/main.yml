@@ -2,6 +2,9 @@ llvm_version: 18
 
 rr_deb: https://github.com/rr-debugger/rr/releases/download/5.7.0/rr-5.7.0-Linux-x86_64.deb
 
+dyalog_deb: https://www.dyalog.com/uploads/php/download.dyalog.com/download.php?file=19.0/linux_64_19.0.50027_unicode.x86_64.deb
+ride_deb: https://github.com/Dyalog/ride/releases/download/v4.5.4100/ride-4.5.4100-1_amd64.deb
+
 git_prefs:
   - { name: pull.ff, value: only }
   - { name: core.editor, value: 'code --wait' }

@@ -12,6 +12,8 @@
 - import_tasks: roles/base/tasks/packages/steps/gh-cli.yml
 # rr
 - import_tasks: roles/base/tasks/packages/steps/rr.yml
+# dyalog
+- import_tasks: roles/base/tasks/packages/steps/dyalog.yml
 # nix
 - import_tasks: roles/base/tasks/packages/steps/nix.yml
 # conda

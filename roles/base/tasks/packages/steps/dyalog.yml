@@ -1,0 +1,6 @@
+- name: Install Dyalog APL
+  apt:
+    deb: "{{ dyalog_deb }}"
+- name: Install Dyalog RIDE
+  apt:
+    deb: "{{ ride_deb }}"
