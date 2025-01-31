@@ -8,7 +8,7 @@ desktop_apt_packages:
   - dex
   - gcc-12 # vmware
   - dconf-editor
-  - emacs
+  - emacs-gtk
   - gnome-screenshot
   - gnome-tweaks
   - gparted
