@@ -9,6 +9,7 @@ desktop_apt_packages:
   - gcc-12 # vmware
   - dconf-editor
   - emacs-gtk
+  - ffmpeg
   - gnome-screenshot
   - gnome-tweaks
   - gparted

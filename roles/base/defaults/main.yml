@@ -23,6 +23,7 @@ base_apt_packages:
 - capstone-tool
 - curl
 - emacs-nox
+- entr
 - g++-12
 - gcc-12
 - gh
@@ -30,6 +31,7 @@ base_apt_packages:
 - git-flow
 - git-lfs
 - htop
+- inotify-tools
 - iotop
 - jsonnet
 - jupyter-core
