@@ -4,6 +4,7 @@ warp_deb: https://app.warp.dev/download?package=deb
 warp_priority: 100
 
 desktop_apt_packages:
+  - bats
   - black
   - codespell
   - d-feet
