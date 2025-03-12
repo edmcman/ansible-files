@@ -4,12 +4,15 @@ warp_deb: https://app.warp.dev/download?package=deb
 warp_priority: 100
 
 desktop_apt_packages:
+  - black
+  - codespell
   - d-feet
   - dex
   - gcc-12 # vmware
   - dconf-editor
   - emacs-gtk
   - ffmpeg
+  - flake8
   - gnome-screenshot
   - gnome-tweaks
   - gparted
