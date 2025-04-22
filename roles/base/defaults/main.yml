@@ -39,6 +39,7 @@ base_apt_packages:
 - libcurl4-openssl-dev
 - libfreetype6-dev
 - libpng-dev
+- libsqlite3-dev
 - libtiff5-dev
 - libjpeg-dev
 - lftp
