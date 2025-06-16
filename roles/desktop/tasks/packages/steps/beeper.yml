@@ -1,6 +1,6 @@
 - name: Download beeper
   get_url:
-    url: https://download.beeper.com/linux/appImage/x64
+    url: https://api.beeper.com/desktop/download/linux/x64/stable/com.automattic.beeper.desktop
     dest: /usr/local/bin/beeper
     mode: '0755'
 
