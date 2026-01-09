@@ -32,4 +32,6 @@
 
 - name: Install package
   apt:
-    name: vagrant
+    name:
+      - vagrant
+      - vagrant-vmware-utility
