@@ -2,6 +2,8 @@
 - import_tasks: roles/base/tasks/packages/steps/apt.yml
 # packer
 - import_tasks: roles/base/tasks/packages/steps/packer.yml
+# vagrant
+- import_tasks: roles/base/tasks/packages/steps/vagrant.yml
 # AWS cli
 - import_tasks: roles/base/tasks/packages/steps/awscli.yml
 # LLVM
@@ -24,5 +26,7 @@
 - import_tasks: roles/base/tasks/fish.yml
 # Ptrace
 - import_tasks: roles/base/tasks/ptrace.yml
+# Sudoers env_keep
+- import_tasks: roles/base/tasks/sudoers.yml
 # Set debian_architecture
 - import_tasks: roles/base/tasks/debian_arch.yml

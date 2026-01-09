@@ -1,0 +1,8 @@
+- name: Ensure sudo env_keep includes REQUESTS_CA_BUNDLE and SSL_CERT_FILE
+  copy:
+    content: "Defaults:%sudo env_keep += \"REQUESTS_CA_BUNDLE SSL_CERT_FILE\"\n"
+    dest: /etc/sudoers.d/requests_ca
+    owner: root
+    group: root
+    mode: '0440'
+    validate: 'visudo -cf %s'

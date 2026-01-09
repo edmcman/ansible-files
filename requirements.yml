@@ -20,8 +20,8 @@ roles:
   - src: gotmax23.zoom
     version: v0.0.4
 
-  # Might be deprecated?
-  - src: vmware.vmware-workstation
+  # broken
+  #- src: vmware.vmware-workstation
 
 collections:
   - name: git+https://eschwartz@code.sei.cmu.edu/bitbucket/scm/eca/sei-ansible.git#/eschwartz/sei_ansible

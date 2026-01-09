@@ -47,12 +47,13 @@
 - import_role:
     name: roles/desktop/nerd-fonts
 
-- import_role:
-    name: vmware.vmware-workstation
-  tags:
-    - vmware
-    - initial
-    - never
+# broken
+# - import_role:
+#     name: vmware.vmware-workstation
+#   tags:
+#     - vmware
+#     - initial
+#     - never
 
 - import_role:
     name: roles/desktop/nvidia-cuda

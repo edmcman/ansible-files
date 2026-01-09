@@ -1,0 +1,35 @@
+- name: Ensure apt keyrings directory exists
+  file:
+    path: /usr/share/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Install HashiCorp apt key (dearmor)
+  become: true
+  shell: |
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  notify: Apt update
+
+- name: Ensure keyring perms
+  file:
+    path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Add apt repository
+  lineinfile:
+    create: true
+    line: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    path: /etc/apt/sources.list.d/hashicorp.list
+  notify: Apt update
+
+- meta: flush_handlers
+
+- name: Install package
+  apt:
+    name: vagrant
