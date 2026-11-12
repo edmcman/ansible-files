@@ -56,7 +56,7 @@
     XDG_RUNTIME_DIR: '{{ beeper_runtime }}'
     DBUS_SESSION_BUS_ADDRESS: 'unix:path={{ beeper_runtime }}/bus'
   register: beeper_setup
-  changed_when: "beeper_setup.stdout_lines[-1] == 'changed'"
+  changed_when: "'changed' in beeper_setup.stdout_lines"
 
 - name: Enable Beeper update timer
   systemd:

@@ -29,7 +29,12 @@ def apps(kind):
     data = json.loads(gear(f'--list-{kind}', '--json'))
     if data['schema_version'] != 1:
         raise ValueError('Unsupported Gear Lever JSON schema')
-    return [app for app in data[kind] if app['name'].casefold() == 'beeper']
+    apps = [app for app in data[kind]
+            if app['name'].casefold() in ('beeper', f"beeper ({app['current_version']})".casefold())]
+    directory = HOME / '.local/share/applications'
+    ids = {app['desktop_id'] for app in apps}
+    return [app for app in apps if not ((directory / app['desktop_id']).is_symlink()
+            and (directory / app['desktop_id']).resolve().name in ids)]
 
 
 def beeper():
@@ -75,22 +80,27 @@ def migrate_launchers(app, previous=None):
     changed = False
     for name in ('Beeper.desktop', 'beeper.desktop'):
         target = directory / name
-        if target == source or target.is_symlink() and os.readlink(target) == str(source):
+        if target == source:
             continue
-        if not (previous and target.is_symlink() and os.readlink(target) == str(directory / previous)):
+        content = f'[Desktop Entry]\nType=Application\nName=Beeper\nExec=gtk-launch {app["desktop_id"]} %u\nNoDisplay=true\nX-Beeper-Managed-Launcher=true\n'
+        if target.is_file() and not target.is_symlink() and target.read_text() == content:
+            continue
+        if not (target.is_symlink() and os.readlink(target) in
+                {str(source), str(directory / (previous or app['desktop_id']))}):
             existing = target if target.exists() else Path('/usr/share/applications') / name
             if not existing.exists():
                 continue
             config = configparser.ConfigParser(interpolation=None, strict=False)
             config.read(existing)
-            if config.get('Desktop Entry', 'Exec', fallback='').split()[:1] != ['/usr/local/bin/beeper']:
+            if (config.get('Desktop Entry', 'Exec', fallback='').split()[:1] != ['/usr/local/bin/beeper']
+                    and not config.getboolean('Desktop Entry', 'X-Beeper-Managed-Launcher', fallback=False)):
                 continue
-        if target.exists() and not target.is_symlink():
+        if target.exists() and not target.is_symlink() and not target.read_text().startswith('[Desktop Entry]\nType=Application\nName=Beeper\nExec=gtk-launch '):
             backup = target.with_suffix(target.suffix + '.legacy')
             if not backup.exists():
                 shutil.copy2(target, backup)
         target.unlink(missing_ok=True)
-        target.symlink_to(source)
+        target.write_text(content)
         changed = True
     return changed
 
@@ -101,14 +111,16 @@ def setup():
     if not matches:
         with tempfile.TemporaryDirectory(dir=HOME) as tmp:
             image = Path(tmp) / 'Beeper.AppImage'
-            urllib.request.urlretrieve(URL, image)
+            request = urllib.request.Request(URL, headers={'User-Agent': 'beeper-manage/1.0'})
+            with urllib.request.urlopen(request) as response, image.open('wb') as dest:
+                shutil.copyfileobj(response, dest)
             gear('--integrate', str(image), '-y')
         changed = True
     app = beeper()
     config = configparser.ConfigParser(interpolation=None)
     config.read(HOME / '.var/app/it.mijorus.gearlever/config/gearlever.conf')
     section = 'app.' + hashlib.md5(app['path'].encode()).hexdigest() + '.update_manager'
-    if (dict(config[section]) if config.has_section(section) else {}) != {'manager': 'StaticFileUpdater', 'url': URL}:
+    if (config.get(section, 'manager', fallback=None), config.get(section, 'url', fallback=None)) != ('StaticFileUpdater', URL):
         gear('--set-update-source', app['path'], '--manager', 'StaticFileUpdater', f'url={URL}')
         changed = True
     changed = autostart(app) or changed
