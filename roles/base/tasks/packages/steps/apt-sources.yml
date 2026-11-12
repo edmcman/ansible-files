@@ -1,0 +1,38 @@
+- name: Check existing third-party apt sources
+  ansible.builtin.stat:
+    path: "{{ item.path }}"
+  loop:
+    - path: /etc/apt/sources.list.d/apt_llvm_org_{{ ansible_distribution_release }}.list
+      url: https://apt.llvm.org/llvm-snapshot.gpg.key
+      key: /usr/share/keyrings/llvm-snapshot.asc
+      regexp: '^deb (http://apt\.llvm\.org/\S+ llvm-toolchain-\S+ main)$'
+      line: 'deb [signed-by=/usr/share/keyrings/llvm-snapshot.asc] \1'
+    - path: /etc/apt/sources.list.d/dl_winehq_org_wine_builds_ubuntu.list
+      url: https://dl.winehq.org/wine-builds/winehq.key
+      key: /usr/share/keyrings/winehq.asc
+      regexp: '^deb (http://dl\.winehq\.org/wine-builds/ubuntu/ \S+ main)$'
+      line: 'deb [signed-by=/usr/share/keyrings/winehq.asc] \1'
+    - path: /etc/apt/sources.list.d/mozilla.list
+      regexp: '^deb \[signed-by=/etc/apt/keyrings/packages\.mozilla\.org\.asc\] (https://packages\.mozilla\.org/apt mozilla main)$'
+      line: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] \1'
+  register: third_party_sources
+
+- name: Download keys for existing apt sources
+  ansible.builtin.get_url:
+    url: "{{ item.item.url }}"
+    dest: "{{ item.item.key }}"
+    mode: '0644'
+  loop: "{{ third_party_sources.results }}"
+  when: item.stat.exists and item.item.url is defined
+  loop_control:
+    label: "{{ item.item.path }}"
+
+- name: Update existing apt sources
+  ansible.builtin.replace:
+    path: "{{ item.item.path }}"
+    regexp: "{{ item.item.regexp }}"
+    replace: "{{ item.item.line }}"
+  loop: "{{ third_party_sources.results }}"
+  when: item.stat.exists
+  loop_control:
+    label: "{{ item.item.path }}"

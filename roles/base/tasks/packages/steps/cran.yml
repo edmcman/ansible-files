@@ -1,0 +1,21 @@
+- name: Download CRAN signing key
+  ansible.builtin.get_url:
+    url: https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc
+    dest: /usr/share/keyrings/cran-ubuntu.asc
+    mode: '0644'
+
+- name: Remove unscoped CRAN repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://cloud.r-project.org/bin/linux/ubuntu {{ ansible_distribution_release }}-cran40/"
+    state: absent
+    update_cache: false
+
+- name: Add CRAN repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/cran-ubuntu.asc] https://cloud.r-project.org/bin/linux/ubuntu {{ ansible_distribution_release }}-cran40/"
+    filename: "archive_uri-https_cloud_r-project_org_bin_linux_ubuntu-{{ ansible_distribution_release }}"
+    update_cache: false
+
+- name: Refresh apt package index
+  ansible.builtin.apt:
+    update_cache: true

@@ -1,11 +1,18 @@
-- name: Add llvm key
-  ansible.builtin.apt_key:
+- name: Download llvm key
+  ansible.builtin.get_url:
     url: https://apt.llvm.org/llvm-snapshot.gpg.key
-    state: present
+    dest: /usr/share/keyrings/llvm-snapshot.asc
+    mode: '0644'
+
+- name: Remove unscoped llvm repository
+  ansible.builtin.apt_repository:
+    repo: "deb http://apt.llvm.org/{{ansible_distribution_release}} llvm-toolchain-{{ansible_distribution_release}}-{{llvm_version}} main"
+    state: absent
+    update_cache: false
 
 - name: Add llvm repository
   ansible.builtin.apt_repository:
-    repo: "deb http://apt.llvm.org/{{ansible_distribution_release}} llvm-toolchain-{{ansible_distribution_release}}-{{llvm_version}} main"
+    repo: "deb [signed-by=/usr/share/keyrings/llvm-snapshot.asc] http://apt.llvm.org/{{ansible_distribution_release}} llvm-toolchain-{{ansible_distribution_release}}-{{llvm_version}} main"
     state: present
 
 - name: Install llvm

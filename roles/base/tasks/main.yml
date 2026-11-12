@@ -1,4 +1,6 @@
 # Install base apt packages
+- import_tasks: roles/base/tasks/packages/steps/apt-sources.yml
+- import_tasks: roles/base/tasks/packages/steps/cran.yml
 - import_tasks: roles/base/tasks/packages/steps/apt.yml
 # packer
 - import_tasks: roles/base/tasks/packages/steps/packer.yml

@@ -5,14 +5,21 @@
     line: i386
   notify: Apt update
 
-- name: Add WineHQ key
-  apt_key:
+- name: Download WineHQ key
+  ansible.builtin.get_url:
     url: https://dl.winehq.org/wine-builds/winehq.key
-    state: present
+    dest: /usr/share/keyrings/winehq.asc
+    mode: '0644'
+
+- name: Remove unscoped WineHQ repository
+  ansible.builtin.apt_repository:
+    repo: "deb http://dl.winehq.org/wine-builds/ubuntu/ {{ ansible_distribution_release }} main"
+    state: absent
+    update_cache: false
 
 - name: Add WineHQ repository
   apt_repository:
-    repo: "deb http://dl.winehq.org/wine-builds/ubuntu/ {{ ansible_distribution_release }} main"
+    repo: "deb [signed-by=/usr/share/keyrings/winehq.asc] http://dl.winehq.org/wine-builds/ubuntu/ {{ ansible_distribution_release }} main"
     state: present
   notify: Apt update
 
