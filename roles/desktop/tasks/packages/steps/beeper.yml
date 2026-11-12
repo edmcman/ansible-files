@@ -3,6 +3,7 @@
     name:
       - flatpak
       - libfuse2
+      - libnotify-bin
     state: present
 
 - name: Add Flathub

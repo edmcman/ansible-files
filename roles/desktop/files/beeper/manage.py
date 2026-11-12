@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -68,6 +69,32 @@ def autostart(app):
     return True
 
 
+def migrate_launchers(app, previous=None):
+    directory = HOME / '.local/share/applications'
+    source = directory / app['desktop_id']
+    changed = False
+    for name in ('Beeper.desktop', 'beeper.desktop'):
+        target = directory / name
+        if target == source or target.is_symlink() and os.readlink(target) == str(source):
+            continue
+        if not (previous and target.is_symlink() and os.readlink(target) == str(directory / previous)):
+            existing = target if target.exists() else Path('/usr/share/applications') / name
+            if not existing.exists():
+                continue
+            config = configparser.ConfigParser(interpolation=None, strict=False)
+            config.read(existing)
+            if config.get('Desktop Entry', 'Exec', fallback='').split()[:1] != ['/usr/local/bin/beeper']:
+                continue
+        if target.exists() and not target.is_symlink():
+            backup = target.with_suffix(target.suffix + '.legacy')
+            if not backup.exists():
+                shutil.copy2(target, backup)
+        target.unlink(missing_ok=True)
+        target.symlink_to(source)
+        changed = True
+    return changed
+
+
 def setup():
     matches = apps('installed')
     changed = False
@@ -85,23 +112,33 @@ def setup():
         gear('--set-update-source', app['path'], '--manager', 'StaticFileUpdater', f'url={URL}')
         changed = True
     changed = autostart(app) or changed
+    changed = migrate_launchers(app) or changed
     print('changed' if changed else 'unchanged')
 
 
 def update():
     app = beeper()
-    if running(app):
-        print('Beeper is running; skipping update')
-        return
     updates = apps('updates')
     if len(updates) > 1 or (updates and updates[0]['path'] != app['path']):
         raise ValueError('Ambiguous Beeper update')
+    marker = HOME / '.cache/beeper-update-notified'
     if updates:
+        if running(app):
+            if not marker.exists():
+                subprocess.run(['notify-send', 'Beeper update available',
+                                'Quit Beeper to install the update.'], check=True)
+                marker.parent.mkdir(parents=True, exist_ok=True)
+                marker.touch()
+            print('Beeper is running; update pending')
+            return
         print(gear('--update', app['path'], '-y'), end='')
-        autostart(beeper())
+        updated = beeper()
+        autostart(updated)
+        migrate_launchers(updated, app['desktop_id'])
         print('Beeper updated')
     else:
         print('Beeper is up to date')
+    marker.unlink(missing_ok=True)
 
 
 if __name__ == '__main__':

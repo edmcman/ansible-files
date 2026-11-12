@@ -1,9 +1,9 @@
 [Unit]
-Description=Check for Beeper updates daily
+Description=Check for Beeper updates
 
 [Timer]
-OnCalendar=daily
-Persistent=true
+OnBootSec=5min
+OnUnitInactiveSec=15min
 
 [Install]
 WantedBy=timers.target
