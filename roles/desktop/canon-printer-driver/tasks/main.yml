@@ -1,26 +1,64 @@
 ---
-# tasks file for canon-printer
-
-- name: Gather the package facts
+- name: Gather package facts
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Install cnrdrvcups-ufr2-us package if needed
-  when: "'cnrdrvcups-ufr2-us' not in ansible_facts.packages"
+- name: Compare installed Canon driver version
+  ansible.builtin.command:
+    argv:
+      - dpkg
+      - --compare-versions
+      - "{{ ansible_facts.packages['cnrdrvcups-ufr2-us'][0].version }}"
+      - lt
+      - "{{ canon_driver_version }}"
+  register: canon_driver_older
+  changed_when: false
+  check_mode: false
+  failed_when: canon_driver_older.rc not in [0, 1]
+  when: "'cnrdrvcups-ufr2-us' in ansible_facts.packages"
+
+- name: Install or upgrade Canon driver
+  when:
+    - "'cnrdrvcups-ufr2-us' not in ansible_facts.packages or canon_driver_older.rc == 0"
+    - not ansible_check_mode
   block:
+    - name: Create temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: canon-driver
+      register: canon_driver_temp
 
-  - name: Create temporary directory
-    tempfile:
-      state: directory
-      suffix: canon-driver
-    register: temp_dir
+    - name: Download Canon driver archive
+      ansible.builtin.get_url:
+        url: "{{ canon_driver_url }}"
+        dest: "{{ canon_driver_temp.path }}/driver.tar.gz"
+        checksum: "{{ canon_driver_checksum }}"
+        mode: '0600'
 
-  - name: Download and extract canon printer driver
-    unarchive:
-      src: "https://pdisp01.c-wss.com/gdl/WWUFORedirectTarget.do?id=MDEwMDAwOTIzNjE4&cmp=ABR&lang=EN"
-      dest: "{{ temp_dir.path }}"
-      remote_src: yes
+    - name: Extract Canon driver archive
+      ansible.builtin.unarchive:
+        src: "{{ canon_driver_temp.path }}/driver.tar.gz"
+        dest: "{{ canon_driver_temp.path }}"
+        remote_src: true
 
-  - name: Install canon printer driver
-    apt:
-      deb: "{{ temp_dir.path }}/linux-UFRII-drv-v590-us/x64/Debian/cnrdrvcups-ufr2-us_5.90-1.03_amd64.deb"
+    - name: Find Canon AMD64 Debian package
+      ansible.builtin.find:
+        paths: "{{ canon_driver_temp.path }}"
+        patterns: "cnrdrvcups-ufr2-us_{{ canon_driver_version }}_amd64.deb"
+        recurse: true
+      register: canon_driver_debs
+
+    - name: Check Canon package was found
+      ansible.builtin.assert:
+        that: canon_driver_debs.matched == 1
+
+    - name: Install Canon driver package
+      ansible.builtin.apt:
+        deb: "{{ canon_driver_debs.files[0].path }}"
+
+  always:
+    - name: Remove temporary directory
+      ansible.builtin.file:
+        path: "{{ canon_driver_temp.path }}"
+        state: absent
+      when: canon_driver_temp.path is defined

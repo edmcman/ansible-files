@@ -1,2 +1,4 @@
 ---
-# defaults file for canon-printer
+canon_driver_url: https://gdlp01.c-wss.com/gds/7/0100009237/25/linux-UFRII-drv-v640-us-01.tar.gz
+canon_driver_version: '6.40-1.01'
+canon_driver_checksum: sha256:f6ea14a0f5a494b8ee371e036fcb274faa05f71deea5fe95111d32171550c9fc
