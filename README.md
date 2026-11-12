@@ -26,6 +26,9 @@ user's profile.
 
 # Development notes
 
+Run `tests/apt-repositories.sh` to exercise CRAN setup and legacy APT source
+migration in a disposable Ubuntu container. It requires Docker and network access.
+
 To test versions of `sei_ansible` locally, use the following command:
 
 ```bash

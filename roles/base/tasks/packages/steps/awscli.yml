@@ -1,6 +1,15 @@
-# Install aws cli v2
+- name: Check AWS CLI snap
+  ansible.builtin.command: snap list aws-cli
+  register: aws_cli_snap
+  changed_when: false
+  failed_when: aws_cli_snap.rc not in [0, 1]
+  check_mode: false
+  environment:
+    LC_ALL: C
+
 - name: Install aws-cli
   community.general.snap:
     name: aws-cli
     channel: v2/stable
     classic: true
+  when: aws_cli_snap.rc != 0 or not (aws_cli_snap.stdout is search('(?m)^aws-cli\\s+\\S+\\s+\\S+\\s+v2/stable\\s+\\S+\\s+.*\\bclassic\\b'))

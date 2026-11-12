@@ -1,8 +1,13 @@
 ---
+- name: Check enabled foreign architectures
+  ansible.builtin.command: dpkg --print-foreign-architectures
+  register: foreign_architectures
+  changed_when: false
+  check_mode: false
+
 - name: Enable i386 architecture in dpkg
-  lineinfile:
-    dest: '/var/lib/dpkg/arch'
-    line: i386
+  ansible.builtin.command: dpkg --add-architecture i386
+  when: "'i386' not in foreign_architectures.stdout_lines"
   notify: Apt update
 
 - name: Download WineHQ key

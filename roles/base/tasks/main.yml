@@ -3,6 +3,7 @@
 - import_tasks: roles/base/tasks/packages/steps/cran.yml
 - import_tasks: roles/base/tasks/packages/steps/apt.yml
 # packer
+- import_tasks: roles/base/tasks/packages/steps/hashicorp.yml
 - import_tasks: roles/base/tasks/packages/steps/packer.yml
 # vagrant
 - import_tasks: roles/base/tasks/packages/steps/vagrant.yml

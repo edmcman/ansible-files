@@ -1,38 +1,57 @@
-- name: Check existing third-party apt sources
-  ansible.builtin.stat:
-    path: "{{ item.path }}"
-  loop:
-    - path: /etc/apt/sources.list.d/apt_llvm_org_{{ ansible_distribution_release }}.list
-      url: https://apt.llvm.org/llvm-snapshot.gpg.key
-      key: /usr/share/keyrings/llvm-snapshot.asc
-      regexp: '^deb (http://apt\.llvm\.org/\S+ llvm-toolchain-\S+ main)$'
-      line: 'deb [signed-by=/usr/share/keyrings/llvm-snapshot.asc] \1'
-    - path: /etc/apt/sources.list.d/dl_winehq_org_wine_builds_ubuntu.list
-      url: https://dl.winehq.org/wine-builds/winehq.key
-      key: /usr/share/keyrings/winehq.asc
-      regexp: '^deb (http://dl\.winehq\.org/wine-builds/ubuntu/ \S+ main)$'
-      line: 'deb [signed-by=/usr/share/keyrings/winehq.asc] \1'
-    - path: /etc/apt/sources.list.d/mozilla.list
-      regexp: '^deb \[signed-by=/etc/apt/keyrings/packages\.mozilla\.org\.asc\] (https://packages\.mozilla\.org/apt mozilla main)$'
-      line: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] \1'
-  register: third_party_sources
+- name: Find third-party apt source files
+  ansible.builtin.find:
+    paths: /etc/apt/sources.list.d
+    patterns: '*.list'
+  register: apt_source_files
+
+- name: Read third-party apt source files
+  ansible.builtin.slurp:
+    src: "{{ item.path }}"
+  loop: "{{ apt_source_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  register: apt_source_contents
+  no_log: true
 
 - name: Download keys for existing apt sources
   ansible.builtin.get_url:
-    url: "{{ item.item.url }}"
-    dest: "{{ item.item.key }}"
+    url: "{{ item.url }}"
+    dest: "{{ item.key }}"
     mode: '0644'
-  loop: "{{ third_party_sources.results }}"
-  when: item.stat.exists and item.item.url is defined
+  loop:
+    - url: https://apt.llvm.org/llvm-snapshot.gpg.key
+      key: /usr/share/keyrings/llvm-snapshot.asc
+      pattern: 'https?://apt\.llvm\.org/'
+    - url: https://dl.winehq.org/wine-builds/winehq.key
+      key: /usr/share/keyrings/winehq.asc
+      pattern: 'https?://dl\.winehq\.org/wine-builds/ubuntu/'
+  when: apt_source_contents.results | map(attribute='content') | map('b64decode') | select('search', item.pattern) | list | length > 0
   loop_control:
-    label: "{{ item.item.path }}"
+    label: "{{ item.key }}"
 
-- name: Update existing apt sources
+- name: Determine native dpkg architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: native_architecture
+  changed_when: false
+  check_mode: false
+
+- name: Scope existing LLVM and WineHQ sources
   ansible.builtin.replace:
-    path: "{{ item.item.path }}"
-    regexp: "{{ item.item.regexp }}"
-    replace: "{{ item.item.line }}"
-  loop: "{{ third_party_sources.results }}"
-  when: item.stat.exists
+    path: "{{ item.0.path }}"
+    regexp: "{{ item.1.regexp }}"
+    replace: "{{ item.1.line }}"
+  loop: "{{ apt_source_files.files | product(source_migrations) | list }}"
   loop_control:
-    label: "{{ item.item.path }}"
+    label: "{{ item.0.path }}"
+  vars:
+    source_migrations:
+      - regexp: '^deb[ \t]+(https?://apt\.llvm\.org/\S+[ \t]+llvm-toolchain-\S+[ \t]+main)[ \t]*$'
+        line: 'deb [signed-by=/usr/share/keyrings/llvm-snapshot.asc] \1'
+      - regexp: '^deb[ \t]+(https?://dl\.winehq\.org/wine-builds/ubuntu/[ \t]+\S+[ \t]+main)[ \t]*$'
+        line: 'deb [signed-by=/usr/share/keyrings/winehq.asc] \1'
+      - regexp: '^deb[ \t]+\[((?![^\]]*signed-by=)[^\]]+)\][ \t]+(https?://apt\.llvm\.org/\S+[ \t]+llvm-toolchain-\S+[ \t]+main)[ \t]*$'
+        line: 'deb [\1 signed-by=/usr/share/keyrings/llvm-snapshot.asc] \2'
+      - regexp: '^deb[ \t]+\[((?![^\]]*signed-by=)[^\]]+)\][ \t]+(https?://dl\.winehq\.org/wine-builds/ubuntu/[ \t]+\S+[ \t]+main)[ \t]*$'
+        line: 'deb [\1 signed-by=/usr/share/keyrings/winehq.asc] \2'
+      - regexp: '^deb[ \t]+\[signed-by=/etc/apt/keyrings/packages\.mozilla\.org\.asc\][ \t]+(https://packages\.mozilla\.org/apt[ \t]+mozilla[ \t]+main)[ \t]*$'
+        line: 'deb [arch={{ native_architecture.stdout }} signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] \1'

@@ -1,0 +1,67 @@
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  tasks:
+    - name: Seed legacy sources
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/legacy-test.list
+        force: false
+        content: |
+          deb http://apt.llvm.org/{{ ansible_distribution_release }} llvm-toolchain-{{ ansible_distribution_release }}-18 main
+          deb [arch=amd64] http://apt.llvm.org/{{ ansible_distribution_release }} llvm-toolchain-{{ ansible_distribution_release }}-16 main
+          deb http://dl.winehq.org/wine-builds/ubuntu/ {{ ansible_distribution_release }} main
+          deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main
+
+    - name: Migrate existing sources
+      ansible.builtin.import_tasks: ../roles/base/tasks/packages/steps/apt-sources.yml
+
+    - name: Check migrated source entries
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/legacy-test.list
+      register: migrated_sources
+
+    - name: Verify source migration
+      ansible.builtin.assert:
+        that:
+          - (migrated_sources.content | b64decode | regex_findall('signed-by=/usr/share/keyrings/llvm-snapshot.asc') | length) == 2
+          - "'arch=amd64 signed-by=/usr/share/keyrings/llvm-snapshot.asc' in (migrated_sources.content | b64decode)"
+          - "'signed-by=/usr/share/keyrings/winehq.asc' in (migrated_sources.content | b64decode)"
+          - "'arch=' ~ native_architecture.stdout ~ ' signed-by=/etc/apt/keyrings/packages.mozilla.org.asc' in (migrated_sources.content | b64decode)"
+
+    - name: Repeat source migration
+      ansible.builtin.import_tasks: ../roles/base/tasks/packages/steps/apt-sources.yml
+
+    - name: Read sources after repeated migration
+      ansible.builtin.slurp:
+        src: /etc/apt/sources.list.d/legacy-test.list
+      register: repeated_sources
+
+    - name: Verify repeated migration is unchanged
+      ansible.builtin.assert:
+        that: repeated_sources.content == migrated_sources.content
+
+    - name: Remove test sources before apt refresh
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/legacy-test.list
+        state: absent
+
+    - name: Seed legacy CRAN source
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/legacy-cran.list
+        content: "deb https://cloud.r-project.org/bin/linux/ubuntu {{ ansible_distribution_release }}-cran40/\n"
+
+    - name: Configure CRAN
+      ansible.builtin.import_tasks: ../roles/base/tasks/packages/steps/cran.yml
+
+    - name: Inspect R package candidate
+      ansible.builtin.command: apt-cache policy r-base-core
+      register: r_policy
+      changed_when: false
+
+    - name: Verify CRAN provides the candidate
+      ansible.builtin.assert:
+        that:
+          - r_candidate != '(none)'
+          - r_policy.stdout is search('(?m)^\\s*(?:\\*\\*\\* )?' ~ (r_candidate | regex_escape) ~ '[^\\n]*\\n\\s*\\d+ https://cloud\\.r-project\\.org/bin/linux/ubuntu')
+      vars:
+        r_candidate: "{{ (r_policy.stdout | regex_search('Candidate: (\\S+)', '\\1')) | first }}"

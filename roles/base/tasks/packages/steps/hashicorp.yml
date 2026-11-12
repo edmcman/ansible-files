@@ -1,0 +1,32 @@
+- name: Ensure apt keyrings directory exists
+  ansible.builtin.file:
+    path: /usr/share/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+# Refresh existing keys too, so signing-key rotations are picked up.
+- name: Refresh HashiCorp apt signing key
+  ansible.builtin.get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
+    force: true
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Apt update
+
+# Own the whole file to replace the duplicate Packer and Vagrant entries.
+- name: Configure HashiCorp apt source
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/hashicorp.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Apt update
+
+- name: Apply HashiCorp apt repository changes
+  ansible.builtin.meta: flush_handlers
