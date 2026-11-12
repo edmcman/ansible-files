@@ -1,6 +1,31 @@
-- name: Install rr
-  apt:
-    deb: "{{ rr_deb }}"
+- name: Create local executable directory
+  file:
+    path: /usr/local/libexec
+    state: directory
+    mode: '0755'
+
+- name: Install rr updater and timer
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  loop:
+    - { src: rr-update, dest: /usr/local/libexec/rr-update, mode: '0755' }
+    - { src: rr-update.service, dest: /etc/systemd/system/rr-update.service, mode: '0644' }
+    - { src: rr-update.timer, dest: /etc/systemd/system/rr-update.timer, mode: '0644' }
+  register: rr_update_units
+
+- name: Install rr if missing
+  command: /usr/local/libexec/rr-update
+  args:
+    creates: /usr/bin/rr
+
+- name: Enable rr update timer
+  systemd:
+    name: rr-update.timer
+    daemon_reload: '{{ rr_update_units.changed }}'
+    enabled: true
+    state: started
 
 - name: Configure sysctl for rr
   ansible.posix.sysctl:

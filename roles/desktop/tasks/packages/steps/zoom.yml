@@ -1,3 +1,4 @@
-- name: Install zoom
-  import_role:
-    name: gotmax23.zoom
+- name: Install Zoom from Flathub
+  ansible.builtin.import_tasks: roles/desktop/tasks/packages/steps/flathub-app.yml
+  vars:
+    flatpak_app: us.zoom.Zoom

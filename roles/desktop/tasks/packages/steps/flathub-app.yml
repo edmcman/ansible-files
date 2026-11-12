@@ -1,0 +1,20 @@
+- ansible.builtin.import_tasks: roles/desktop/tasks/packages/steps/flatpak-updates.yml
+
+- name: Check Flathub remote
+  ansible.builtin.command: flatpak remotes --system --columns=name
+  register: flathub_remotes
+  changed_when: false
+
+- name: Add Flathub remote
+  ansible.builtin.command: flatpak remote-add --system --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  when: "'flathub' not in flathub_remotes.stdout_lines"
+
+- name: Check Flatpak installation
+  ansible.builtin.command: 'flatpak info --system {{ flatpak_app }}'
+  register: flatpak_info
+  changed_when: false
+  failed_when: flatpak_info.rc not in [0, 1]
+
+- name: Install Flatpak application
+  ansible.builtin.command: 'flatpak install --system --noninteractive flathub {{ flatpak_app }}'
+  when: flatpak_info.rc != 0

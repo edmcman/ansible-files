@@ -1,0 +1,28 @@
+- name: Create apt keyring directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Install Mattermost repository signing key
+  ansible.builtin.get_url:
+    url: https://deb.packages.mattermost.com/pubkey.gpg
+    dest: /etc/apt/keyrings/mattermost.asc
+    mode: '0644'
+  notify: Apt update
+
+- name: Configure Mattermost apt repository
+  ansible.builtin.apt_repository:
+    repo: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/mattermost.asc] https://deb.packages.mattermost.com {{ ansible_distribution_release }} main'
+    filename: mattermost-desktop
+    state: present
+    update_cache: false
+  notify: Apt update
+
+- name: Apply Mattermost repository changes
+  ansible.builtin.meta: flush_handlers
+
+- name: Install Mattermost desktop
+  ansible.builtin.apt:
+    name: mattermost-desktop
+    state: present

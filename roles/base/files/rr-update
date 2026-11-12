@@ -1,0 +1,55 @@
+#!/usr/bin/python3
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+import urllib.request
+
+API = 'https://api.github.com/repos/rr-debugger/rr/releases/latest'
+
+
+def request(url):
+    return urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'rr-update', 'Accept': 'application/vnd.github+json'}), timeout=120)
+
+
+def run(*args, **kwargs):
+    return subprocess.run(args, check=True, text=True, **kwargs)
+
+
+def main():
+    arch = {'amd64': 'x86_64', 'arm64': 'aarch64'}[run('dpkg', '--print-architecture', capture_output=True).stdout.strip()]
+    with request(API) as response:
+        release = json.load(response)
+    assets = [a for a in release['assets'] if a['name'] == f"rr-{release['tag_name'].removeprefix('v')}-Linux-{arch}.deb"]
+    if len(assets) != 1:
+        raise ValueError('No unique rr Debian package for this architecture')
+    installed = subprocess.run(['dpkg-query', '-W', '-f=${Version}', 'rr'], text=True, capture_output=True)
+    latest = release['tag_name'].removeprefix('v')
+    if installed.returncode == 0 and subprocess.run(['dpkg', '--compare-versions', latest, 'le', installed.stdout]).returncode == 0:
+        print(f'rr {installed.stdout} is up to date')
+        return
+    with tempfile.TemporaryDirectory(prefix='rr-update-') as directory:
+        package = Path(directory) / assets[0]['name']
+        digest = hashlib.sha256()
+        with request(assets[0]['browser_download_url']) as response, package.open('wb') as output:
+            while chunk := response.read(1024 * 1024):
+                output.write(chunk)
+                digest.update(chunk)
+        expected = assets[0].get('digest')
+        if expected and expected != 'sha256:' + digest.hexdigest():
+            raise ValueError('rr download checksum mismatch')
+        name = run('dpkg-deb', '-f', str(package), 'Package', capture_output=True).stdout.strip()
+        version = run('dpkg-deb', '-f', str(package), 'Version', capture_output=True).stdout.strip()
+        if name != 'rr':
+            raise ValueError(f'Unexpected package: {name}')
+        if installed.returncode == 0 and subprocess.run(['dpkg', '--compare-versions', version, 'le', installed.stdout]).returncode == 0:
+            print(f'rr {installed.stdout} is up to date')
+            return
+        os.environ['DEBIAN_FRONTEND'] = 'noninteractive'
+        run('apt-get', 'install', '-y', str(package))
+
+
+if __name__ == '__main__':
+    main()

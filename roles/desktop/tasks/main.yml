@@ -3,7 +3,10 @@
     - dropbox
     - never # most people probably don't want drop box
 - import_tasks: roles/desktop/tasks/packages/steps/git-cred-helper.yml
+- import_tasks: roles/desktop/tasks/packages/steps/flatpak-updates.yml
 - import_tasks: roles/desktop/tasks/packages/steps/chrome.yml
+- import_tasks: roles/desktop/tasks/packages/steps/mattermost.yml
+  tags: [mattermost]
 - import_tasks: roles/desktop/tasks/packages/steps/vscode.yml
 - import_tasks: roles/desktop/tasks/packages/steps/java.yml
 - import_tasks: roles/desktop/tasks/packages/steps/apt.yml
@@ -16,7 +19,7 @@
   tags:
     - zoom
     - initial
-    - never # don't enable by default because it downloads the deb every time!
+    - never
 - import_tasks: roles/desktop/tasks/packages/steps/warp.yml
   tags:
     - warp

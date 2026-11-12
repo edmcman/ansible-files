@@ -1,21 +1,70 @@
-- name: Download beeper
-  get_url:
-    url: https://api.beeper.com/desktop/download/linux/x64/stable/com.automattic.beeper.desktop
-    dest: /usr/local/bin/beeper
-    mode: '0755'
-
-- name: Install fuse
+- name: Install Flatpak and AppImage support
   package:
-    name: libfuse2
+    name:
+      - flatpak
+      - libfuse2
     state: present
 
-- name: Add .desktop file
-  copy:
-    src: beeper.desktop
-    dest: /usr/share/applications/beeper.desktop
+- name: Add Flathub
+  command: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  register: flathub
+  changed_when: flathub.stdout | length > 0
 
-- name: Autostart beeper
+- name: Install Gear Lever
+  command: flatpak install --system --noninteractive --or-update flathub it.mijorus.gearlever
+  register: gearlever
+  changed_when: "'Nothing to do' not in gearlever.stdout"
+
+- name: Get desktop user information
+  getent:
+    database: passwd
+    key: '{{ user_name }}'
+
+- name: Set desktop user paths
+  set_fact:
+    beeper_home: "{{ getent_passwd[user_name][4] }}"
+    beeper_runtime: "/run/user/{{ getent_passwd[user_name][1] }}"
+
+- name: Create user directories
+  become_user: '{{ user_name }}'
   file:
-    src: /usr/share/applications/beeper.desktop
-    dest: "/home/{{ user_name }}/.config/autostart/beeper.desktop"
-    state: link
+    path: '{{ beeper_home }}/{{ item }}'
+    state: directory
+    mode: '0755'
+  loop:
+    - .local/bin
+    - .config/systemd/user
+
+- name: Install Beeper management script and timer
+  copy:
+    src: 'beeper/{{ item.src }}'
+    dest: '{{ beeper_home }}/{{ item.dest }}'
+    owner: '{{ user_name }}'
+    mode: '{{ item.mode }}'
+  loop:
+    - { src: manage.py, dest: .local/bin/beeper-manage, mode: '0755' }
+    - { src: beeper-update.service, dest: .config/systemd/user/beeper-update.service, mode: '0644' }
+    - { src: beeper-update.timer, dest: .config/systemd/user/beeper-update.timer, mode: '0644' }
+  register: beeper_files
+
+- name: Integrate Beeper and configure updates
+  command: '{{ beeper_home }}/.local/bin/beeper-manage setup'
+  become_user: '{{ user_name }}'
+  environment:
+    HOME: '{{ beeper_home }}'
+    XDG_RUNTIME_DIR: '{{ beeper_runtime }}'
+    DBUS_SESSION_BUS_ADDRESS: 'unix:path={{ beeper_runtime }}/bus'
+  register: beeper_setup
+  changed_when: "beeper_setup.stdout_lines[-1] == 'changed'"
+
+- name: Enable Beeper update timer
+  systemd:
+    name: beeper-update.timer
+    scope: user
+    daemon_reload: '{{ beeper_files.changed }}'
+    enabled: true
+    state: started
+  become_user: '{{ user_name }}'
+  environment:
+    XDG_RUNTIME_DIR: '{{ beeper_runtime }}'
+    DBUS_SESSION_BUS_ADDRESS: 'unix:path={{ beeper_runtime }}/bus'

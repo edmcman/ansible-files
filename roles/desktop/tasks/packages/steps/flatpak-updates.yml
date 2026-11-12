@@ -1,0 +1,73 @@
+- name: Install Flatpak
+  ansible.builtin.package:
+    name: flatpak
+    state: present
+
+- name: Install system Flatpak update units
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '/etc/systemd/system/{{ item }}'
+    mode: '0644'
+  loop:
+    - flatpak-update.service
+    - flatpak-update.timer
+  register: flatpak_system_units
+
+- name: Enable system Flatpak update timer
+  ansible.builtin.systemd:
+    name: flatpak-update.timer
+    daemon_reload: '{{ flatpak_system_units.changed }}'
+    enabled: true
+    state: started
+
+- name: Get desktop user information
+  ansible.builtin.getent:
+    database: passwd
+    key: '{{ user_name }}'
+
+- name: Set desktop user paths
+  ansible.builtin.set_fact:
+    flatpak_home: '{{ getent_passwd[user_name][4] }}'
+    flatpak_runtime: '/run/user/{{ getent_passwd[user_name][1] }}'
+
+- name: Create user systemd timer directory
+  ansible.builtin.file:
+    path: '{{ flatpak_home }}/.config/systemd/user/timers.target.wants'
+    state: directory
+    mode: '0755'
+  become_user: '{{ user_name }}'
+
+- name: Install user Flatpak update units
+  ansible.builtin.copy:
+    src: '{{ item.src }}'
+    dest: '{{ flatpak_home }}/.config/systemd/user/{{ item.dest }}'
+    owner: '{{ user_name }}'
+    mode: '0644'
+  loop:
+    - { src: flatpak-user-update.service, dest: flatpak-update.service }
+    - { src: flatpak-update.timer, dest: flatpak-update.timer }
+  register: flatpak_user_units
+
+- name: Enable user Flatpak update timer at login
+  ansible.builtin.file:
+    src: ../flatpak-update.timer
+    dest: '{{ flatpak_home }}/.config/systemd/user/timers.target.wants/flatpak-update.timer'
+    state: link
+  become_user: '{{ user_name }}'
+
+- name: Check for active user session
+  ansible.builtin.stat:
+    path: '{{ flatpak_runtime }}/bus'
+  register: flatpak_user_bus
+
+- name: Start user Flatpak update timer in active session
+  ansible.builtin.systemd:
+    name: flatpak-update.timer
+    scope: user
+    daemon_reload: '{{ flatpak_user_units.changed }}'
+    state: started
+  become_user: '{{ user_name }}'
+  environment:
+    XDG_RUNTIME_DIR: '{{ flatpak_runtime }}'
+    DBUS_SESSION_BUS_ADDRESS: 'unix:path={{ flatpak_runtime }}/bus'
+  when: flatpak_user_bus.stat.exists
