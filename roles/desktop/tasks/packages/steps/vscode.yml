@@ -1,3 +1,48 @@
+- name: Configure VS Code apt repository
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Ensure apt keyrings directory exists
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Download Microsoft apt signing key
+      ansible.builtin.get_url:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        dest: /etc/apt/keyrings/microsoft.asc
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Apt update
+
+    - name: Remove legacy VS Code apt source
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/vscode.list
+        state: absent
+      notify: Apt update
+
+    - name: Configure single VS Code apt source
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/vscode.sources
+        content: |
+          Types: deb
+          URIs: https://packages.microsoft.com/repos/code
+          Suites: stable
+          Components: main
+          Signed-By: /etc/apt/keyrings/microsoft.asc
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Apt update
+
+    - name: Apply VS Code apt repository changes
+      ansible.builtin.meta: flush_handlers
+
 - name: Install VS Code
   import_role:
     name: gantsign.visual-studio-code
+  vars:
+    visual_studio_code_skip_add_repo: true

@@ -60,6 +60,8 @@
 
 - import_role:
     name: roles/desktop/nvidia-cuda
+  tags:
+    - nvidia
 
 - import_role:
     name: roles/desktop/displaylink-driver
