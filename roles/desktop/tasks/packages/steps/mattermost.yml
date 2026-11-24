@@ -13,9 +13,16 @@
 
 - name: Configure Mattermost apt repository
   ansible.builtin.apt_repository:
-    repo: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/mattermost.asc] https://deb.packages.mattermost.com {{ ansible_distribution_release }} main'
+    repo: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/mattermost.asc] https://deb.packages.mattermost.com stable main'
     filename: mattermost-desktop
     state: present
+    update_cache: false
+  notify: Apt update
+
+- name: Remove the old Mattermost repository entry
+  ansible.builtin.apt_repository:
+    repo: 'deb [arch=amd64 signed-by=/etc/apt/keyrings/mattermost.asc] https://deb.packages.mattermost.com {{ ansible_distribution_release }} main'
+    state: absent
     update_cache: false
   notify: Apt update
 
