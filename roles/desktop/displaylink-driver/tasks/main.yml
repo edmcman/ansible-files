@@ -10,3 +10,12 @@
 - name: Install displaylink driver
   apt:
     name: displaylink-driver
+
+- name: Configure Xorg software cursors for DisplayLink
+  ansible.builtin.copy:
+    src: xorg.conf.d/
+    dest: /etc/X11/xorg.conf.d/
+    owner: root
+    group: root
+    mode: '0644'
+    directory_mode: '0755'
